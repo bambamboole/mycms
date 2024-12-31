@@ -21,6 +21,11 @@ class MyCmsInstallCommand extends Command
             '--provider' => 'Spatie\LaravelSettings\LaravelSettingsServiceProvider',
             '--tag' => 'filament-menu-builder-migrations',
         ]);
+        // publish migrations form spatie/laravel-medialibrary
+        $this->call('vendor:publish', [
+            '--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
+            '--tag' => 'medialibrary-migrations',
+        ]);
 
         $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
         $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);
