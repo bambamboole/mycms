@@ -1,6 +1,7 @@
 <?php
 
-// config for Bambamboole/MyCms
 return [
-
+    'environment_indicator' => [
+        'enabled' => true,
+    ]
 ];
