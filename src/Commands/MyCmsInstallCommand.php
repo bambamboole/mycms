@@ -14,6 +14,16 @@ class MyCmsInstallCommand extends Command
     {
         // publish migrations form spatie/laravel-health
         $this->call('vendor:publish', ['--tag' => 'health-migrations']);
+        // publish migrations form datlechin/filament-menu-builder
+        $this->call('vendor:publish', ['--tag' => 'filament-menu-builder-migrations']);
+        // publish migrations form spatie/laravel-settings
+        $this->call('vendor:publish', [
+            '--provider' => 'Spatie\LaravelSettings\LaravelSettingsServiceProvider',
+            '--tag' => 'filament-menu-builder-migrations',
+        ]);
+
+        $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
+        $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);
 
         $this->comment('All done');
 

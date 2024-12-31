@@ -2,7 +2,11 @@
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Settings\GeneralSettings;
+use Bambamboole\MyCms\Settings\SocialSettings;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Config\Repository;
 use Spatie\Health\Commands\RunHealthChecksCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -20,12 +24,34 @@ class MyCmsServiceProvider extends PackageServiceProvider
         $package
             ->name('mycms')
             ->hasConfigFile()
-            ->hasViews()
-//            ->hasMigration('create_mycms_table')
+            ->hasViews('mycms')
+            ->hasMigrations([
+                'create_pages_table',
+                '../settings/create_general_settings',
+                '../settings/create_social_settings',
+            ])
             ->hasCommand(MyCmsInstallCommand::class);
 
+
+    }
+
+    public function bootingPackage(): void
+    {
         $this->app->afterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->command(RunHealthChecksCommand::class)->everyMinute();
         });
+
+        $config = $this->app->make(Repository::class);
+        $config->set('settings.settings', array_merge(
+            $config->get('settings.settings'),
+            [
+                GeneralSettings::class,
+                SocialSettings::class,
+            ]
+        ));
+        $config->set('settings.migrations_paths', array_merge(
+            $config->get('settings.migrations_paths'),
+            [$this->getPackageBaseDir() . '/database/settings'],
+        ));
     }
 }
