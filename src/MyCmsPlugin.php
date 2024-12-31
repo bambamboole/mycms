@@ -3,8 +3,10 @@
 namespace Bambamboole\MyCms;
 
 use Filament\Contracts\Plugin;
+use Filament\Navigation\NavigationGroup;
 use Filament\Panel;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class MyCmsPlugin implements Plugin
 {
@@ -20,8 +22,16 @@ class MyCmsPlugin implements Plugin
 
     public function register(Panel $panel): void
     {
+        $panel->navigationGroups([
+            NavigationGroup::make('Content')->collapsible(false),
+            NavigationGroup::make('Admin')->collapsible()->collapsed(),
+            NavigationGroup::make('Settings')->collapsible()->collapsed(),
+        ]);
         if (config('mycms.environment_indicator.enabled')) {
             $panel->plugin(EnvironmentIndicatorPlugin::make());
+        }
+        if (config('mycms.application_health.enabled')) {
+            FilamentSpatieLaravelHealthPlugin::make()->navigationGroup('Admin')->navigationLabel('Application Health');
         }
     }
 

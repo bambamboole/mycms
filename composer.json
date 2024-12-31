@@ -21,22 +21,24 @@
         "filament/spatie-laravel-media-library-plugin": "^3.2",
         "filament/spatie-laravel-settings-plugin": "^3.2",
         "filament/spatie-laravel-tags-plugin": "^3.2",
-        "illuminate/contracts": "^10.0||^11.0",
+        "illuminate/contracts": "^11.0",
+        "illuminate/cache": "^11.0",
         "league/flysystem-aws-s3-v3": "^3.29",
         "pxlrbt/filament-environment-indicator": "^2.1",
+        "shuvroroy/filament-spatie-laravel-health": "^2.3",
         "spatie/laravel-package-tools": "^1.16"
     },
     "require-dev": {
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^8.1.1||^7.10.0",
-        "larastan/larastan": "^2.9",
+        "larastan/larastan": "^3.0.2",
         "orchestra/testbench": "^9.0.0||^8.22.0",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-arch": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
-        "phpstan/extension-installer": "^1.3",
-        "phpstan/phpstan-deprecation-rules": "^1.1",
-        "phpstan/phpstan-phpunit": "^1.3"
+        "phpstan/extension-installer": "^1.4.2",
+        "phpstan/phpstan-deprecation-rules": "^2.0.1",
+        "phpstan/phpstan-phpunit": "^2.0.3"
     },
     "autoload": {
         "psr-4": {
@@ -47,7 +49,9 @@
     "autoload-dev": {
         "psr-4": {
             "Bambamboole\\MyCms\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "Workbench\\App\\": "workbench/app/",
+            "Workbench\\Database\\Factories\\": "workbench/database/factories/",
+            "Workbench\\Database\\Seeders\\": "workbench/database/seeders/"
         }
     },
     "scripts": {

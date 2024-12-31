@@ -2,9 +2,11 @@
 
 namespace Bambamboole\MyCms;
 
+use Illuminate\Support\Facades\Schedule;
+use Spatie\Health\Commands\RunHealthChecksCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Bambamboole\MyCms\Commands\MyCmsCommand;
+use Bambamboole\MyCms\Commands\MyCmsInstallCommand;
 
 class MyCmsServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +21,10 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ->name('mycms')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_mycms_table')
-            ->hasCommand(MyCmsCommand::class);
+//            ->hasMigration('create_mycms_table')
+            ->hasCommand(MyCmsInstallCommand::class);
+
+//        Schedule::command(RunHealthChecksCommand::class)
+//            ->everyMinute();
     }
 }
