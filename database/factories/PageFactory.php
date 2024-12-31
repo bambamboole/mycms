@@ -2,13 +2,15 @@
 
 namespace Bambamboole\MyCms\Database\Factories;
 
+use Bambamboole\MyCms\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Bambamboole\MyCms\Models\Page>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<Page>
  */
 class PageFactory extends Factory
 {
+    protected $model = Page::class;
     /**
      * Define the model's default state.
      *

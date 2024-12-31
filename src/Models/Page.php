@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms\Models;
 
+use Bambamboole\MyCms\Database\Factories\PageFactory;
 use Datlechin\FilamentMenuBuilder\Concerns\HasMenuPanel;
 use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,7 @@ class Page extends Model implements MenuPanelable
 
     use HasMenuPanel;
 
+    protected static string $factory = PageFactory::class;
     protected $guarded = [];
 
     public function contentAsHtml(): string
