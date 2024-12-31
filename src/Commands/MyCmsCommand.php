@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Bambamboole\MyCms\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class MyCmsCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'mycms';
 
     public $description = 'My command';
 
