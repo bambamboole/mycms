@@ -1,0 +1,129 @@
+@import "@fontsource/roboto/latin-400.css";
+@import "@fontsource/roboto/latin-700.css";
+@import "@fontsource/roboto-slab/latin-400.css";
+@import "@fontsource/roboto-slab/latin-700.css";
+@import "@fontsource/roboto-condensed/latin-400.css";
+@import "@fontsource/roboto-condensed/latin-700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+h1 {
+    @apply text-grey-dark font-condensed text-5xl mb-8
+}
+
+h2 {
+    @apply text-grey-dark font-condensed text-3xl mb-6
+}
+
+h3 {
+    @apply text-grey-dark font-condensed text-2xl mb-4
+}
+
+h4 {
+    @apply text-grey-dark font-condensed text-xl
+}
+
+
+blockquote {
+    display: block;
+    border-width: 2px 0;
+    border-style: solid;
+    border-color: #eee;
+    padding: 1.5rem 0 1.5rem;
+    margin: 1.5em 0;
+    position: relative;
+}
+
+blockquote:before {
+    content: '\201C';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 3rem;
+    height: 3rem;
+    font: 6em/1.08em 'Roboto', sans-serif;
+    color: #666;
+    text-align: center;
+}
+
+a {
+    @apply no-underline text-blue;
+}
+
+
+table {
+    @apply w-full;
+    border-collapse: collapse;
+}
+td, th {
+    @apply p-3;
+}
+
+thead tr {
+    @apply border-b-2 border-grey;
+}
+
+
+tbody tr {
+    @apply border-b border-grey;
+}
+
+
+code {
+    margin: 2rem 0;
+    border-radius: 5px;
+    background: #272822;
+    color: #fff;
+    padding: 0 .5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+}
+
+.cryptedmail:after {
+    content: attr(data-name) "@" attr(data-domain) "." attr(data-tld);
+}
+
+.article-image img{
+    max-height: 20rem;
+    width: auto;
+}
+
+/*
+ Margin and rounding are personal preferences,
+ overflow-x-auto is recommended.
+*/
+pre {
+    @apply my-4 rounded overflow-x-auto;
+}
+
+/*
+ Add some vertical padding and expand the width
+ to fill its container. The horizontal padding
+ comes at the line level so that background
+ colors extend edge to edge.
+*/
+pre code.torchlight {
+    @apply block py-4 min-w-max;
+}
+
+/*
+ Horizontal line padding.
+*/
+pre code.torchlight .line {
+    @apply px-4;
+}
+
+/*
+ Push the code away from the line numbers and
+ summary caret indicators.
+*/
+pre code.torchlight .line-number,
+pre code.torchlight .summary-caret {
+    @apply mr-4;
+}

@@ -37,7 +37,7 @@
 
     </script>
     @yield('seo')
-    @vite('resources/css/app.css')
+    @vite('resources/css/app.css', 'vendor/mycms')
 </head>
 <body class="font-sans">
 <div class="container mx-auto relative pb-6 px-2">

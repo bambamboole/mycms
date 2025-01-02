@@ -36,6 +36,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
                 '../settings/create_general_settings',
                 '../settings/create_social_settings',
             ])
+            ->hasAssets()
             ->hasCommand(MyCmsInstallCommand::class);
 
 
