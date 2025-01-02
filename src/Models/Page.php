@@ -15,10 +15,10 @@ use Torchlight\Commonmark\V2\TorchlightExtension;
 class Page extends Model implements MenuPanelable
 {
     use HasFactory;
-
     use HasMenuPanel;
 
     protected static string $factory = PageFactory::class;
+
     protected $guarded = [];
 
     public function contentAsHtml(): string

@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Commands\MyCmsInstallCommand;
 use Bambamboole\MyCms\Models\Post;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
@@ -18,7 +19,6 @@ use Spatie\Health\Commands\RunHealthChecksCommand;
 use Spatie\Health\Facades\Health;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Bambamboole\MyCms\Commands\MyCmsInstallCommand;
 
 class MyCmsServiceProvider extends PackageServiceProvider
 {
@@ -42,7 +42,6 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ->hasAssets()
             ->hasCommand(MyCmsInstallCommand::class);
 
-
     }
 
     public function bootingPackage(): void
@@ -61,7 +60,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
         ));
         $config->set('settings.migrations_paths', array_merge(
             $config->get('settings.migrations_paths'),
-            [$this->getPackageBaseDir() . '/database/settings'],
+            [$this->getPackageBaseDir().'/database/settings'],
         ));
 
         $config->set('feed.feeds.main.items', [Post::class, 'getFeedItems']);
@@ -81,7 +80,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
         Filament::registerRenderHook(
             PanelsRenderHook::TOPBAR_START,
-            fn() => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
+            fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
         );
     }
 }

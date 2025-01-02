@@ -1,4 +1,5 @@
 <?php
+
 namespace Bambamboole\MyCms\Http;
 
 use Bambamboole\MyCms\Models\Post;

@@ -25,7 +25,9 @@ class Post extends Model implements Feedable, HasMedia
     use HasFactory, HasTags, InteractsWithMedia, Versionable;
 
     protected static string $factory = PostFactory::class;
+
     protected $guarded = [];
+
     protected array $versionable = ['title', 'slug', 'excerpt', 'content', 'published_at'];
 
     protected VersionStrategy $versionStrategy = VersionStrategy::SNAPSHOT;
@@ -35,7 +37,7 @@ class Post extends Model implements Feedable, HasMedia
         parent::boot();
 
         static::creating(function (Post $post) {
-            if (!$post->author_id) {
+            if (! $post->author_id) {
                 $post->author_id = auth()->id();
             }
         });

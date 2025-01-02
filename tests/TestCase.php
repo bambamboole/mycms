@@ -2,9 +2,9 @@
 
 namespace Bambamboole\MyCms\Tests;
 
+use Bambamboole\MyCms\MyCmsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Bambamboole\MyCms\MyCmsServiceProvider;
 
 class TestCase extends Orchestra
 {

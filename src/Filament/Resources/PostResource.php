@@ -32,7 +32,7 @@ class PostResource extends Resource
                 Forms\Components\Section::make()->columnSpan(2)->schema([
                     TextInput::make('title')
                         ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
-                            if (!$get('is_slug_changed_manually') && filled($state)) {
+                            if (! $get('is_slug_changed_manually') && filled($state)) {
                                 $set('slug', Str::slug($state));
                             }
                         })

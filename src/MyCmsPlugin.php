@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Bambamboole\MyCms;
 
@@ -58,7 +60,7 @@ class MyCmsPlugin implements Plugin
     {
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
-            fn() => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
+            fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
         );
     }
 }
