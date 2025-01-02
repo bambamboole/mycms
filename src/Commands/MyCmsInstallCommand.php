@@ -26,6 +26,8 @@ class MyCmsInstallCommand extends Command
             '--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
             '--tag' => 'medialibrary-migrations',
         ]);
+        // Publish spatie/laravel-feed assets
+        $this->call('vendor:publish', ['--tag' => 'feed-assets']);
 
         $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
         $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);

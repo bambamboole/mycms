@@ -2,12 +2,17 @@
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Models\Post;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
-use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
+use Spatie\Health\Checks\Checks\CacheCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Checks\Checks\ScheduleCheck;
 use Spatie\Health\Commands\RunHealthChecksCommand;
+use Spatie\Health\Facades\Health;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Bambamboole\MyCms\Commands\MyCmsInstallCommand;
@@ -53,5 +58,15 @@ class MyCmsServiceProvider extends PackageServiceProvider
             $config->get('settings.migrations_paths'),
             [$this->getPackageBaseDir() . '/database/settings'],
         ));
+
+        $config->set('feed.feeds.main.items', [Post::class, 'getFeedItems']);
+        $config->set('feed.feeds.main.url', '/rss');
+
+        Health::checks([
+            EnvironmentCheck::new(),
+            OptimizedAppCheck::new(),
+            ScheduleCheck::new(),
+            CacheCheck::new(),
+        ]);
     }
 }

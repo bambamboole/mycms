@@ -14,7 +14,6 @@ use Torchlight\Commonmark\V2\TorchlightExtension;
 
 class Page extends Model implements MenuPanelable
 {
-    /** @use HasFactory<\Bambamboole\MyCms\Database\Factories\PageFactory> */
     use HasFactory;
 
     use HasMenuPanel;

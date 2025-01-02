@@ -6,5 +6,8 @@ return [
     ],
     'application_health' => [
         'enabled' => true,
+    ],
+    'models' => [
+        'user' => 'App\Models\User',
     ]
 ];

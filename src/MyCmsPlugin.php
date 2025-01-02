@@ -5,6 +5,7 @@ namespace Bambamboole\MyCms;
 use Bambamboole\MyCms\Filament\Pages\GeneralSettingsPage;
 use Bambamboole\MyCms\Filament\Pages\SocialSettingsPage;
 use Bambamboole\MyCms\Filament\Resources\PageResource;
+use Bambamboole\MyCms\Filament\Resources\PostResource;
 use Bambamboole\MyCms\Models\Page;
 use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
@@ -41,7 +42,7 @@ class MyCmsPlugin implements Plugin
         if (config('mycms.application_health.enabled')) {
             $panel->plugin(FilamentSpatieLaravelHealthPlugin::make()->navigationGroup('Admin')->navigationLabel('Application Health'));
         }
-        $panel->resources([PageResource::class]);
+        $panel->resources([PageResource::class, PostResource::class]);
         $panel->pages([
             GeneralSettingsPage::class,
             SocialSettingsPage::class,
