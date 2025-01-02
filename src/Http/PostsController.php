@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms\Http;
 
+use Bambamboole\MyCms\Facades\MyCms;
 use Bambamboole\MyCms\Models\Post;
 use Illuminate\Contracts\View\View;
 
@@ -15,7 +16,7 @@ class PostsController
             ->orderBy('published_at', 'asc')
             ->paginate(5);
 
-        return view('mycms::themes.default.posts.index', ['posts' => $posts]);
+        return view(MyCms::getPostIndexView(), ['posts' => $posts]);
     }
 
     public function show($slug): View
@@ -26,6 +27,6 @@ class PostsController
             ->where('slug', $slug)
             ->firstOrFail();
 
-        return view('mycms::themes.default.posts.show', ['post' => $post]);
+        return view(MyCms::getPostView(), ['post' => $post]);
     }
 }

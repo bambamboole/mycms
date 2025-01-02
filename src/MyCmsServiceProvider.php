@@ -6,11 +6,8 @@ use Bambamboole\MyCms\Commands\MyCmsInstallCommand;
 use Bambamboole\MyCms\Models\Post;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
-use Filament\Facades\Filament;
-use Filament\View\PanelsRenderHook;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
-use Illuminate\Support\Facades\Blade;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\EnvironmentCheck;
 use Spatie\Health\Checks\Checks\OptimizedAppCheck;
@@ -77,10 +74,5 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ScheduleCheck::new(),
             CacheCheck::new(),
         ]);
-
-        Filament::registerRenderHook(
-            PanelsRenderHook::TOPBAR_START,
-            fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
-        );
     }
 }

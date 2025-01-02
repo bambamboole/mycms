@@ -5,7 +5,10 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/bambamboole/mycms/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/bambamboole/mycms/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/bambamboole/mycms.svg?style=flat-square)](https://packagist.org/packages/bambamboole/mycms)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+MyCms is my package for a simple CMS. It is based on Laravel and Filament.  
+Additionally it is a bit of a patch work of different packages.
+My goal for MyCms is to be a simple CMS which can be used as a starting point for a new project.
+MyCms is currently under heavy development and can change quickly.  
 
 ## Installation
 

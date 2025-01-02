@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ config('app.locale') }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>{{ app(\Bambamboole\MyCms\Settings\GeneralSettings::class)->site_name }} | @yield('title', 'Home')</title>
+    <title>{{ \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name }} | @yield('title', 'Home')</title>
 
     <meta name="description" content="Manuel Christlieb | Technical Lead - Xentral Platform Team">
 
-    <meta property="og:site_name" content="christlieb.eu">
-    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="{{ \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name }}">
+    <meta property="og:locale" content="{{ config('app.locale') }}">
     <meta property="og:description"
           content="Manuel Christlieb | Technical Lead - Xentral Platform Team.">
     <meta property="og:url" content="{{ request()->fullUrl() }}">

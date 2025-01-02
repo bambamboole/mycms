@@ -49,18 +49,22 @@ class MyCmsPlugin implements Plugin
             GeneralSettingsPage::class,
             SocialSettingsPage::class,
         ]);
-        $panel->plugin(FilamentMenuBuilderPlugin::make()
+        $menuPlugin = FilamentMenuBuilderPlugin::make()
             ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
-            ->addLocation('header', 'Header')
-            ->addLocation('footer', 'Footer')
-            ->navigationGroup('Admin'));
-    }
+            ->navigationGroup('Admin');
+        foreach (config('mycms.theme.menus') as $key => $label) {
+            $menuPlugin->addLocation($key, $label);
+        }
+        $panel->plugin($menuPlugin);
 
-    public function boot(Panel $panel): void
-    {
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
         );
+    }
+
+    public function boot(Panel $panel): void
+    {
+        //
     }
 }
