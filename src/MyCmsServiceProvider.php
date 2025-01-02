@@ -30,6 +30,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ->name('mycms')
             ->hasConfigFile()
             ->hasViews('mycms')
+            ->hasRoute('web')
             ->hasMigrations([
                 'create_pages_table',
                 '../settings/create_general_settings',
@@ -61,6 +62,11 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
         $config->set('feed.feeds.main.items', [Post::class, 'getFeedItems']);
         $config->set('feed.feeds.main.url', '/rss');
+        // @TODO find a better way to register theme stuff
+        $config->set('blade-icons.sets.default', [
+            'path' => 'vendor/bambamboole/mycms/resources/views/themes/default/svg',
+            'prefix' => 'icon',
+        ]);
 
         Health::checks([
             EnvironmentCheck::new(),

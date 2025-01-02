@@ -23,6 +23,7 @@
     ],
     "require": {
         "php": "^8.3",
+        "blade-ui-kit/blade-icons": "^1.7",
         "datlechin/filament-menu-builder": "^0.6.2",
         "echolabsdev/prism": "^0.22.0",
         "filament/filament": "^3.2",
