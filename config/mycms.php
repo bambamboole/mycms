@@ -10,6 +10,10 @@ return [
     'models' => [
         'user' => 'App\Models\User',
     ],
+    'settings' => [
+        \Bambamboole\MyCms\Settings\GeneralSettings::class,
+        \Bambamboole\MyCms\Settings\SocialSettings::class,
+    ],
     'theme' => [
         'menus' => [
             'header' => 'Header',

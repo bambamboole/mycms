@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms;
 
-use Bambamboole\MyCms\Filament\Pages\GeneralSettingsPage;
-use Bambamboole\MyCms\Filament\Pages\SocialSettingsPage;
+use Bambamboole\MyCms\Filament\Pages\SettingsPage;
 use Bambamboole\MyCms\Filament\Resources\PageResource;
 use Bambamboole\MyCms\Filament\Resources\PostResource;
 use Bambamboole\MyCms\Models\Page;
@@ -36,7 +35,6 @@ class MyCmsPlugin implements Plugin
         $panel->navigationGroups([
             NavigationGroup::make('Content')->collapsible(false),
             NavigationGroup::make('Admin')->collapsible()->collapsed(),
-            NavigationGroup::make('Settings')->collapsible()->collapsed(),
         ]);
         if (config('mycms.environment_indicator.enabled')) {
             $panel->plugin(EnvironmentIndicatorPlugin::make());
@@ -46,8 +44,7 @@ class MyCmsPlugin implements Plugin
         }
         $panel->resources([PageResource::class, PostResource::class]);
         $panel->pages([
-            GeneralSettingsPage::class,
-            SocialSettingsPage::class,
+            SettingsPage::class,
         ]);
         $menuPlugin = FilamentMenuBuilderPlugin::make()
             ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
