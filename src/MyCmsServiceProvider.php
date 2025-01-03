@@ -81,16 +81,16 @@ class MyCmsServiceProvider extends PackageServiceProvider
         $this->app->afterResolving(SEOManager::class, function (SEOManager $seoManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
             config()->set('seo.title.homepage_title', $siteName);
-            config()->set('seo.title.suffix', ' | ' . $siteName);
-            config()->set('seo.description.fallback',  \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
+            config()->set('seo.title.suffix', ' | '.$siteName);
+            config()->set('seo.description.fallback', \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
 
             return $seoManager;
         });
         $this->app->afterResolving(TagManager::class, function (TagManager $tagManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
             config()->set('seo.title.homepage_title', $siteName);
-            config()->set('seo.title.suffix', ' | ' . $siteName);
-            config()->set('seo.description.fallback',  \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
+            config()->set('seo.title.suffix', ' | '.$siteName);
+            config()->set('seo.description.fallback', \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
 
             return $tagManager;
         });

@@ -23,7 +23,7 @@ use Spatie\Tags\HasTags;
 
 class Post extends Model implements Feedable, HasMedia
 {
-    use HasFactory, HasTags, InteractsWithMedia, Versionable, HasSEO;
+    use HasFactory, HasSEO, HasTags, InteractsWithMedia, Versionable;
 
     protected static string $factory = PostFactory::class;
 
