@@ -14,22 +14,22 @@ readonly class MyCms
 
     public function getPageView(): string
     {
-        return $this->config->get('mycms.theme.page_view');
+        return $this->config->get('mycms.theme.views.page_view');
     }
 
     public function getPostIndexView(): string
     {
-        return $this->config->get('mycms.theme.post_index_view');
+        return $this->config->get('mycms.theme.views.post_index_view');
     }
 
     public function getPostView(): string
     {
-        return $this->config->get('mycms.theme.post_view');
+        return $this->config->get('mycms.theme.views.post_view');
     }
 
     public function getTagView(): string
     {
-        return $this->config->get('mycms.theme.tag_view');
+        return $this->config->get('mycms.theme.views.tag_view');
     }
 
     public function getGeneralSettings()
