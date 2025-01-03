@@ -15,8 +15,6 @@ class TorchlightExtension extends BaseExtension implements ExtensionInterface, N
     /**
      * This method just proxies to our base class, but the
      * signature has to match Commonmark V2.
-     *
-     * @param  EnvironmentBuilderInterface  $environment
      */
     public function register(EnvironmentBuilderInterface $environment): void
     {
@@ -27,8 +25,6 @@ class TorchlightExtension extends BaseExtension implements ExtensionInterface, N
      * This method just proxies to our base class, but the
      * signature has to match Commonmark V2.
      *
-     * @param  Node  $node
-     * @param  ChildNodeRendererInterface  $childRenderer
      * @return mixed|string|\Stringable|null
      */
     public function render(Node $node, ChildNodeRendererInterface $childRenderer)
@@ -52,7 +48,6 @@ class TorchlightExtension extends BaseExtension implements ExtensionInterface, N
     /**
      * Get the string content from a V2 node.
      *
-     * @param $node
      * @return string
      */
     protected function getLiteralContent($node)

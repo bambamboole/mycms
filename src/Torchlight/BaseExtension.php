@@ -20,9 +20,6 @@ abstract class BaseExtension
      */
     protected $customBlockRenderer;
 
-    /**
-     * @param  DocumentParsedEvent  $event
-     */
     public function onDocumentParsed(DocumentParsedEvent $event)
     {
         $walker = $event->getDocument()->walker();
@@ -31,7 +28,7 @@ abstract class BaseExtension
             $node = $event->getNode();
 
             // Only look for code nodes, and only process them upon entering.
-            if (!$this->isCodeNode($node) || !$event->isEntering()) {
+            if (! $this->isCodeNode($node) || ! $event->isEntering()) {
                 continue;
             }
 
@@ -86,7 +83,6 @@ abstract class BaseExtension
     abstract protected function codeNodes();
 
     /**
-     * @param $node
      * @return string
      */
     abstract protected function getLiteralContent($node);
@@ -94,7 +90,6 @@ abstract class BaseExtension
     /**
      * Bind into a Commonmark V1 or V2 environment.
      *
-     * @param  $environment
      * @param  string  $renderMethod
      */
     protected function bind($environment, $renderMethod)
@@ -112,7 +107,6 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return bool
      */
     protected function isCodeNode($node)
@@ -121,7 +115,6 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return Block
      */
     protected function makeTorchlightBlock($node)
@@ -133,7 +126,6 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return string
      */
     protected function renderNode($node)
@@ -148,7 +140,6 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return string
      */
     protected function getContent($node)
@@ -156,7 +147,7 @@ abstract class BaseExtension
         $content = $this->getLiteralContent($node);
 
         // Check for our file loading convention.
-        if (!Str::contains($content, '<<<')) {
+        if (! Str::contains($content, '<<<')) {
             return $content;
         }
 
@@ -174,16 +165,15 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return array|mixed|null
      */
     protected function getInfo($node)
     {
-        if (!$this->isCodeNode($node)) {
+        if (! $this->isCodeNode($node)) {
             return [];
         }
 
-        if (!is_callable([$node, 'getInfoWords'])) {
+        if (! is_callable([$node, 'getInfoWords'])) {
             return [];
         }
 
@@ -193,7 +183,6 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return string|null
      */
     protected function getLanguage($node)
@@ -210,7 +199,6 @@ abstract class BaseExtension
     }
 
     /**
-     * @param $node
      * @return string
      */
     protected function getTheme($node)
