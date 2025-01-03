@@ -33,6 +33,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ->hasRoute('web')
             ->hasMigrations([
                 'create_pages_table',
+                'create_posts_table',
                 '../settings/create_general_settings',
                 '../settings/create_social_settings',
             ])
