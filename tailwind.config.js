@@ -8,7 +8,16 @@ export default {
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './resources/**/*.vue',
-        './database/fixtures/**/*.md',
+    ],
+    safelist: [
+        'xl:w-2/3',
+        'rounded-full',
+        'h-48',
+        'text-grey-darker',
+        'border-grey-darker',
+        'border-4',
+        'bg-grey-darkest',
+        'text-white',
     ],
     theme: {
         screens: {
