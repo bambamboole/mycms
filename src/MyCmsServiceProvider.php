@@ -8,6 +8,8 @@ use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
+use RalphJSmit\Laravel\SEO\SEOManager;
+use RalphJSmit\Laravel\SEO\TagManager;
 use Spatie\Health\Checks\Checks\CacheCheck;
 use Spatie\Health\Checks\Checks\EnvironmentCheck;
 use Spatie\Health\Checks\Checks\OptimizedAppCheck;
@@ -75,5 +77,22 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ScheduleCheck::new(),
             CacheCheck::new(),
         ]);
+
+        $this->app->afterResolving(SEOManager::class, function (SEOManager $seoManager) {
+            $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
+            config()->set('seo.title.homepage_title', $siteName);
+            config()->set('seo.title.suffix', ' | ' . $siteName);
+            config()->set('seo.description.fallback',  \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
+
+            return $seoManager;
+        });
+        $this->app->afterResolving(TagManager::class, function (TagManager $tagManager) {
+            $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
+            config()->set('seo.title.homepage_title', $siteName);
+            config()->set('seo.title.suffix', ' | ' . $siteName);
+            config()->set('seo.description.fallback',  \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
+
+            return $tagManager;
+        });
     }
 }

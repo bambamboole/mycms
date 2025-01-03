@@ -24,6 +24,7 @@ class GeneralSettingsPage extends SettingsPage
         return $form
             ->schema([
                 Forms\Components\TextInput::make('site_name'),
+                Forms\Components\Textarea::make('description')->rows(2),
             ]);
     }
 }

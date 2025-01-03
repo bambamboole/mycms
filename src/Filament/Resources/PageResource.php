@@ -7,12 +7,14 @@ use Bambamboole\MyCms\Filament\Resources\PageResource\Widgets\HomePageWidget;
 use Bambamboole\MyCms\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
+use RalphJSmit\Filament\SEO\SEO;
 
 class PageResource extends Resource
 {
@@ -28,29 +30,38 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()->columnSpan(2)->schema([
-                    TextInput::make('title')
-                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
-                            if (!$get('is_slug_changed_manually') && filled($state)) {
-                                $set('slug', Str::slug($state));
-                            }
-                        })
-                        ->live(debounce: 300)
-                        ->required(),
-                    Forms\Components\MarkdownEditor::make('content')
-                        ->required()
-                        ->fileAttachmentsDisk(config('media-library.disk_name')),
-                ]),
-                Forms\Components\Section::make()->columnStart(3)->columnSpan(2)->schema([
-                    TextInput::make('slug')
-                        ->afterStateUpdated(function (Forms\Set $set) {
-                            $set('is_slug_changed_manually', true);
-                        })
-                        ->required(),
-                    Hidden::make('is_slug_changed_manually')
-                        ->default(false)
-                        ->dehydrated(false),
-                ]),
+                Forms\Components\Tabs::make()->columnSpan('full')
+                    ->tabs([
+                        Tab::make('Content')->schema([
+                            Forms\Components\Section::make()->columnSpan(2)->schema([
+                                TextInput::make('title')
+                                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
+                                        if (!$get('is_slug_changed_manually') && filled($state)) {
+                                            $set('slug', Str::slug($state));
+                                        }
+                                    })
+                                    ->live(debounce: 300)
+                                    ->required(),
+                                Forms\Components\MarkdownEditor::make('content')
+                                    ->required()
+                                    ->fileAttachmentsDisk(config('media-library.disk_name')),
+                            ]),
+                            Forms\Components\Section::make()->columnStart(3)->columnSpan(2)->schema([
+                                TextInput::make('slug')
+                                    ->afterStateUpdated(function (Forms\Set $set) {
+                                        $set('is_slug_changed_manually', true);
+                                    })
+                                    ->required(),
+                                Hidden::make('is_slug_changed_manually')
+                                    ->default(false)
+                                    ->dehydrated(false),
+                            ]),
+                        ]),
+                        Tab::make('SEO')->schema([
+                            SEO::make(),
+                        ]),
+                    ]),
+
             ]);
     }
 

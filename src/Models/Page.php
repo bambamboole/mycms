@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
+use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 
 class Page extends Model implements MenuPanelable
 {
     use HasFactory;
     use HasMenuPanel;
+    use HasSEO;
 
     protected static string $factory = PageFactory::class;
 

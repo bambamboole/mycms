@@ -8,7 +8,8 @@ use Spatie\LaravelSettings\Settings;
 
 class GeneralSettings extends Settings
 {
-    public string $site_name;
+    public ?string $site_name;
+    public ?string $description;
 
     public static function group(): string
     {

@@ -28,6 +28,8 @@ class MyCmsInstallCommand extends Command
         ]);
         // Publish spatie/laravel-feed assets
         $this->call('vendor:publish', ['--tag' => 'feed-assets']);
+        // Publish ralphjsmit/laravel-seo assets
+        $this->call('vendor:publish', ['--tag' => 'seo-migrations']);
 
         $this->call('vendor:publish', ['--tag' => 'mycms-assets']);
         $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);

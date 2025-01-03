@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
+use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -22,7 +23,7 @@ use Spatie\Tags\HasTags;
 
 class Post extends Model implements Feedable, HasMedia
 {
-    use HasFactory, HasTags, InteractsWithMedia, Versionable;
+    use HasFactory, HasTags, InteractsWithMedia, Versionable, HasSEO;
 
     protected static string $factory = PostFactory::class;
 

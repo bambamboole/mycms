@@ -1,19 +1,9 @@
 @extends('mycms::themes.default.layouts.app')
 
 @section('title',  $post->title)
+
 @section('seo')
-    <meta property="og:title" content="{{ $post->title }} | christlieb.eu"/>
-    <meta property="og:description" content="{{ $post->excerpt }}"/>
-
-    <meta property="article:published_time" content="{{ optional($post->published_at)->toIso8601String() }}"/>
-    <meta property="og:updated_time" content="{{ $post->updated_at->toIso8601String() }}"/>
-
-    <meta name="twitter:card" content="summary_large_image"/>
-    <meta name="twitter:description" content="{{ $post->excerpt }}"/>
-    <meta name="twitter:title" content="{{ $post->title }} | christlieb.eu"/>
-    <meta name="twitter:site" content="@bambamboole1"/>
-    <meta property="og:image" content="https://christlieb.eu/images/logo.png">
-    <meta name="twitter:creator" content="@bambamboole1"/>
+    {!! seo()->for($post) !!}
 @endsection
 
 @section('content')
