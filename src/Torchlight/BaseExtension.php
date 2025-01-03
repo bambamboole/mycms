@@ -28,7 +28,7 @@ abstract class BaseExtension
             $node = $event->getNode();
 
             // Only look for code nodes, and only process them upon entering.
-            if (! $this->isCodeNode($node) || ! $event->isEntering()) {
+            if (!$this->isCodeNode($node) || !$event->isEntering()) {
                 continue;
             }
 
@@ -147,7 +147,7 @@ abstract class BaseExtension
         $content = $this->getLiteralContent($node);
 
         // Check for our file loading convention.
-        if (! Str::contains($content, '<<<')) {
+        if (!Str::contains($content, '<<<')) {
             return $content;
         }
 
@@ -169,11 +169,11 @@ abstract class BaseExtension
      */
     protected function getInfo($node)
     {
-        if (! $this->isCodeNode($node)) {
+        if (!$this->isCodeNode($node)) {
             return [];
         }
 
-        if (! is_callable([$node, 'getInfoWords'])) {
+        if (!is_callable([$node, 'getInfoWords'])) {
             return [];
         }
 

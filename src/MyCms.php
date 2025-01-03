@@ -6,7 +6,9 @@ namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
+use Datlechin\FilamentMenuBuilder\Models\Menu;
 use Illuminate\Contracts\Config\Repository;
+use Illuminate\Support\Collection;
 
 readonly class MyCms
 {
@@ -40,5 +42,12 @@ readonly class MyCms
     public function getSocialSettings()
     {
         return app(SocialSettings::class);
+    }
+
+    public function getMenuItems(string $location): Collection
+    {
+        $menu = Menu::location($location);
+
+        return $menu ? $menu->menuItems : collect();
     }
 }

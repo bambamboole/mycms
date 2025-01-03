@@ -1,5 +1,5 @@
 <div class=" xl:w-1/2 mx-auto flex justify-around pt-6 mb-8">
-    @foreach(\Datlechin\FilamentMenuBuilder\Models\Menu::location('header')->menuItems as $item)
+    @foreach(\Bambamboole\MyCms\Facades\MyCms::getMenuItems('header') as $item)
         <a class="flex uppercase font-bold text-grey-darker" href="{{$item->url}}">
             @svg('menu-icon-left', 'self-center') <span class=self-center">{{$item->title}}</span> @svg('menu-icon-right', '-mt-1 self-center')
         </a>

@@ -12,7 +12,7 @@ class PagesController
     public function show(Request $request): View
     {
         $page = Page::query()
-            ->where('slug', '/'.ltrim((string) $request->uri()->path(), '/'))
+            ->where('slug', $request->uri()->path())
             ->firstOrFail();
 
         return view(MyCms::getPageView(), ['page' => $page]);

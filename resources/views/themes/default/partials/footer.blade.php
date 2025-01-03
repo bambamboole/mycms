@@ -20,7 +20,7 @@
         @endif
     </div>
     <div class="text-center pt-8 text-grey text-sm tracking-wide">
-        @foreach(\Datlechin\FilamentMenuBuilder\Models\Menu::location('footer')->menuItems as $item)
+        @foreach(\Bambamboole\MyCms\Facades\MyCms::getMenuItems('footer') as $item)
             <a class="text-grey hover:text-blue" aria-label="Legal Notice"
                href="{{ $item->url }}">{{ $item->title }}</a>&nbsp;&nbsp;|&nbsp;&nbsp;
         @endforeach

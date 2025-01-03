@@ -37,7 +37,7 @@ class Post extends Model implements Feedable, HasMedia
         parent::boot();
 
         static::creating(function (Post $post) {
-            if (! $post->author_id) {
+            if (!$post->author_id) {
                 $post->author_id = auth()->id();
             }
         });
