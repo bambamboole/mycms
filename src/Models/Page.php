@@ -3,6 +3,7 @@
 namespace Bambamboole\MyCms\Models;
 
 use Bambamboole\MyCms\Database\Factories\PageFactory;
+use Bambamboole\MyCms\Torchlight\TorchlightExtension;
 use Datlechin\FilamentMenuBuilder\Concerns\HasMenuPanel;
 use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
-use Torchlight\Commonmark\V2\TorchlightExtension;
 
 class Page extends Model implements MenuPanelable
 {

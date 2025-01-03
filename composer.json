@@ -15,12 +15,6 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/caendesilva/torchlight-commonmark-php"
-        }
-    ],
     "require": {
         "php": "^8.3",
         "blade-ui-kit/blade-icons": "^1.7",
@@ -41,7 +35,6 @@
         "spatie/laravel-feed": "^4.4",
         "spatie/laravel-package-tools": "^1.16",
         "symfony/yaml": "^7.2",
-        "torchlight/torchlight-commonmark": "dev-main",
         "torchlight/torchlight-laravel": "^0.6.0"
     },
     "require-dev": {
