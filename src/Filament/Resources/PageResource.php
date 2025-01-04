@@ -6,13 +6,16 @@ use Bambamboole\MyCms\Filament\Resources\PageResource\Pages;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Widgets\HomePageWidget;
 use Bambamboole\MyCms\Models\Page;
 use Filament\Forms;
+use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Tabs\Tab;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RalphJSmit\Filament\SEO\SEO;
 
@@ -41,6 +44,12 @@ class PageResource extends Resource
                                         }
                                     })
                                     ->live(debounce: 300)
+                                    ->helperText(function (?string $state): string {
+                                        return (string) Str::of(strlen($state))
+                                            ->append(' / ')
+                                            ->append(60 .' ')
+                                            ->append(Str::of(__('filament-seo::translations.characters'))->lower());
+                                    })
                                     ->required(),
                                 Forms\Components\MarkdownEditor::make('content')
                                     ->required()
@@ -55,10 +64,32 @@ class PageResource extends Resource
                                 Hidden::make('is_slug_changed_manually')
                                     ->default(false)
                                     ->dehydrated(false),
+                                Forms\Components\DateTimePicker::make('published_at')->seconds(false),
                             ]),
                         ]),
                         Tab::make('SEO')->schema([
-                            SEO::make(),
+                            Group::make([
+                                Textarea::make('description')
+                                    ->label('SEO Description')
+                                    ->columnSpan(2),
+                                // here we can add further SEO fields
+                            ])
+                                ->afterStateHydrated(function (Group $component, ?Model $record): void {
+                                    $component->getChildComponentContainer()->fill(
+                                        $record?->seo?->only('description') ?: []
+                                    );
+                                })
+                                ->statePath('seo')
+                                ->dehydrated(false)
+                                ->saveRelationshipsUsing(function (Model $record, array $state): void {
+                                    $state = collect($state)->only(['description'])->map(fn ($value) => $value ?: null)->all();
+
+                                    if ($record->seo && $record->seo->exists) {
+                                        $record->seo->update($state);
+                                    } else {
+                                        $record->seo()->create($state);
+                                    }
+                                }),
                         ]),
                     ]),
 

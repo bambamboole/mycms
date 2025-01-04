@@ -2,7 +2,6 @@
 
 namespace Bambamboole\MyCms\Models;
 
-use App\Models\User;
 use Bambamboole\MyCms\Database\Factories\PostFactory;
 use Bambamboole\MyCms\Torchlight\TorchlightExtension;
 use Illuminate\Database\Eloquent\Builder;
@@ -10,9 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
+use League\CommonMark\Extension\Attributes\AttributesExtension;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
+use RalphJSmit\Laravel\SEO\Support\SEOData;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -37,7 +38,7 @@ class Post extends Model implements Feedable, HasMedia
     {
         parent::boot();
 
-        static::creating(function (Post $post) {
+        static::creating(function (self $post) {
             if (!$post->author_id) {
                 $post->author_id = auth()->id();
             }
@@ -56,7 +57,7 @@ class Post extends Model implements Feedable, HasMedia
 
     public function author(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'author_id');
+        return $this->belongsTo(config('mycms.models.user'), 'author_id');
     }
 
     public function registerMediaCollections(): void
@@ -87,7 +88,12 @@ class Post extends Model implements Feedable, HasMedia
 
     public function contentAsHtml(): string
     {
-        return Str::markdown($this->content, extensions: [new TorchlightExtension, new BladeExtension]);
+        $extensions = [new BladeExtension, new AttributesExtension];
+        if (config('torchlight.token') !== null) {
+            $extensions[] = new TorchlightExtension;
+        }
+
+        return Str::markdown($this->content, extensions: $extensions);
     }
 
     /**
@@ -114,5 +120,16 @@ class Post extends Model implements Feedable, HasMedia
         return [
             'published_at' => 'datetime',
         ];
+    }
+
+    public function getDynamicSEOData(): SEOData
+    {
+        return new SEOData(
+            title: $this->title,
+            description: $this->excerpt,
+            author: $this->author->name,
+            published_time: $this->published_at,
+            modified_time: $this->updated_at,
+        );
     }
 }

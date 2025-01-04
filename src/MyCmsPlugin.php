@@ -12,6 +12,7 @@ use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\NavigationGroup;
+use Filament\Pages\Auth\EditProfile;
 use Filament\Panel;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
@@ -54,6 +55,7 @@ class MyCmsPlugin implements Plugin
         }
         $panel->plugin($menuPlugin);
 
+        $panel->profile(EditProfile::class, false);
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
