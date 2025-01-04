@@ -34,6 +34,7 @@ class MyCmsInstallCommand extends Command
         $this->call('vendor:publish', ['--tag' => 'mycms-assets']);
         $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
         $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);
+        $this->call('vendor:publish', ['--tag' => 'tags-migrations']);
 
         $this->comment('All done');
 
