@@ -4,11 +4,11 @@ namespace Bambamboole\MyCms\Commands;
 
 use Illuminate\Console\Command;
 
-class MyCmsInstallCommand extends Command
+class PublishCommand extends Command
 {
-    public $signature = 'mycms:install';
+    public $signature = 'mycms:publish';
 
-    public $description = 'This command installs mycms';
+    public $description = 'Publish migrations and assets for MyCMS and its dependencies';
 
     public function handle(): int
     {
@@ -22,21 +22,18 @@ class MyCmsInstallCommand extends Command
             '--tag' => 'migrations',
         ]);
         // publish migrations form spatie/laravel-medialibrary
-        $this->call('vendor:publish', [
-            '--provider' => 'Spatie\MediaLibrary\MediaLibraryServiceProvider',
-            '--tag' => 'medialibrary-migrations',
-        ]);
+        $this->call('vendor:publish', ['--tag' => 'medialibrary-migrations']);
         // Publish spatie/laravel-feed assets
         $this->call('vendor:publish', ['--tag' => 'feed-assets']);
         // Publish ralphjsmit/laravel-seo assets
         $this->call('vendor:publish', ['--tag' => 'seo-migrations']);
+        // Publish spatie/laravel-permission migrations
+        $this->call('vendor:publish', ['--tag' => 'permission-migrations']);
 
         $this->call('vendor:publish', ['--tag' => 'mycms-assets']);
         $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
         $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);
         $this->call('vendor:publish', ['--tag' => 'tags-migrations']);
-
-        $this->comment('All done');
 
         return self::SUCCESS;
     }

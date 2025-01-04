@@ -19,11 +19,10 @@ composer require bambamboole/mycms
 ```
 
 
-You can install mycms via its own artisan command. Afterwards you may run the migrations
+You can install MyCMS via its own artisan command. It is interactive and will create the first user for you.
 
 ```bash
 php artisan mycms:install
-php artisan migrate
 ```
 
 To enable the Plugin in Filament you have to add the plugin to your ServiceProvider

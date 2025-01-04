@@ -8,6 +8,7 @@ use Bambamboole\MyCms\Filament\Pages\SettingsPage;
 use Bambamboole\MyCms\Filament\Resources\PageResource;
 use Bambamboole\MyCms\Filament\Resources\PostResource;
 use Bambamboole\MyCms\Models\Page;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
 use Filament\Contracts\Plugin;
@@ -56,6 +57,7 @@ class MyCmsPlugin implements Plugin
         $panel->plugin($menuPlugin);
 
         $panel->profile(EditProfile::class, false);
+        $panel->plugin(FilamentShieldPlugin::make());
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),

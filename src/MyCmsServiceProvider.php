@@ -2,7 +2,9 @@
 
 namespace Bambamboole\MyCms;
 
-use Bambamboole\MyCms\Commands\MyCmsInstallCommand;
+use Bambamboole\MyCms\Commands\InstallCommand;
+use Bambamboole\MyCms\Commands\PublishCommand;
+use Bambamboole\MyCms\Commands\UpdateCommand;
 use Bambamboole\MyCms\Models\Post;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
@@ -40,7 +42,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
                 '../settings/create_social_settings',
             ])
             ->hasAssets()
-            ->hasCommand(MyCmsInstallCommand::class);
+            ->hasCommands([InstallCommand::class, UpdateCommand::class, PublishCommand::class]);
 
     }
 
