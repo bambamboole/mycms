@@ -22,8 +22,12 @@ class GeneralSettings extends Settings implements MyCmsSettingsInterface
     public function form(): array
     {
         return [
-            TextInput::make('site_name')->required(),
-            Textarea::make('description')->rows(2),
+            TextInput::make('site_name')
+                ->required()
+                ->helperText('The name of your site. This will be used for the title and other Open Graph tags'),
+            Textarea::make('description')
+                ->helperText('The description of your site. This will be used for the description and other Open Graph tags')
+                ->rows(2),
         ];
     }
 

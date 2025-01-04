@@ -2,26 +2,27 @@
 
 namespace Bambamboole\MyCms\Filament\Pages;
 
-use Filament\Actions\Action;
-use Filament\Forms\Components\Tabs;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\CanUseDatabaseTransactions;
 use Filament\Pages\Concerns\HasUnsavedDataChangesAlert;
-use Filament\Pages\Concerns\InteractsWithFormActions;
 use Filament\Pages\Page;
 
 class SettingsPage extends Page
 {
     use CanUseDatabaseTransactions;
     use HasUnsavedDataChangesAlert;
-    use InteractsWithFormActions;
 
     protected static string $view = 'mycms::filament.pages.settings-page';
 
     protected static ?string $navigationGroup = 'Admin';
 
+    protected static ?string $navigationIcon = 'heroicon-o-cog';
+
     protected static ?string $navigationLabel = 'Settings';
+
+    protected ?string $heading = 'Settings';
+
+    protected ?string $subheading = 'Configure your MyCMS site';
 
     public ?array $data = [];
 
@@ -30,72 +31,38 @@ class SettingsPage extends Page
         $this->fillForm();
     }
 
+    public function getSettings()
+    {
+        return collect(config('mycms.settings'));
+    }
+
     protected function fillForm(): void
     {
-        $settings = config('mycms.settings');
-
-        $data = [];
-        foreach ($settings as $setting) {
-            $data = array_merge($data, app($setting)->toArray());
+        foreach ($this->getSettings() as $setting) {
+            $formName = $setting::group().'SettingsForm';
+            $this->$formName->fill(app($setting)->toArray());
         }
-        $this->form->fill($data);
     }
 
-    public function form(Form $form): Form
+    public function save($group): void
     {
-        $settings = config('mycms.settings');
-        $tabs = array_map(
-            fn (string $setting) => Tabs\Tab::make(str_replace('Settings', '', class_basename($setting)))->schema(app($setting)->form()),
-            $settings,
-        );
-
-        return $form->schema([
-            Tabs::make()->tabs($tabs),
-        ]);
-    }
-
-    public function save(): void
-    {
-        $data = $this->form->getState();
-        $settings = config('mycms.settings');
-        foreach ($settings as $setting) {
-            $setting = app($setting);
-            $setting->submit($data);
-        }
+        $setting = $this->getSettings()->first(fn ($setting) => $setting::group() === $group);
+        $instance = app($setting);
+        $formName = $setting::group().'SettingsForm';
+        $instance->fill($this->$formName->getState());
+        $instance->save();
         Notification::make()
             ->success()
-            ->title('Saved!')
+            ->title($setting::group().' settings saved!')
             ->send();
-    }
-
-    public function getFormActions(): array
-    {
-        return [
-            $this->getSaveFormAction(),
-        ];
-    }
-
-    public function getSaveFormAction(): Action
-    {
-        return Action::make('save')
-            ->label('Save')
-            ->submit('save')
-            ->keyBindings(['mod+s']);
-    }
-
-    public function getSubmitFormAction(): Action
-    {
-        return $this->getSaveFormAction();
     }
 
     protected function getForms(): array
     {
-        return [
-            'form' => $this->form(
-                $this->makeForm()
-                    ->statePath('data')
-                    ->inlineLabel($this->hasInlineLabels()),
-            ),
-        ];
+        return $this->getSettings()
+            ->mapWithKeys(fn ($setting) => [$setting::group().'SettingsForm' => $this->makeForm()
+                ->schema(app($setting)->form())
+                ->statePath('data.'.$setting::group())])
+            ->toArray();
     }
 }

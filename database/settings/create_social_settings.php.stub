@@ -6,8 +6,8 @@ return new class extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->add('social.x_link', '');
-        $this->migrator->add('social.github_link', '');
-        $this->migrator->add('social.linked_in_link', '');
+        $this->migrator->add('social.x_username', '');
+        $this->migrator->add('social.github_username', '');
+        $this->migrator->add('social.linkedin_username', '');
     }
 };
