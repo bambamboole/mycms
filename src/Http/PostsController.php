@@ -13,10 +13,10 @@ class PostsController
         $posts = Post::query()
             ->published()
             ->with('tags')
-            ->orderBy('published_at', 'asc')
+            ->orderBy('published_at')
             ->paginate(5);
 
-        return view(MyCms::getPostIndexView(), ['posts' => $posts]);
+        return MyCms::theme()->getPostIndexView($posts);
     }
 
     public function show($slug): View
@@ -27,6 +27,6 @@ class PostsController
             ->where('slug', $slug)
             ->firstOrFail();
 
-        return view(MyCms::getPostView(), ['post' => $post]);
+        return MyCms::theme()->getPostView($post);
     }
 }

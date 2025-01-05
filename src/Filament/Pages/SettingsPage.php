@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms\Filament\Pages;
 
+use Bambamboole\MyCms\Facades\MyCms;
 use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\CanUseDatabaseTransactions;
 use Filament\Pages\Concerns\HasUnsavedDataChangesAlert;
@@ -25,7 +26,7 @@ class SettingsPage extends Page
 
     public function getSettings()
     {
-        return collect(config('mycms.settings'));
+        return collect(MyCms::registeredSettings());
     }
 
     protected function fillForm(): void

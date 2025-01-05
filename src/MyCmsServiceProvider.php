@@ -8,6 +8,7 @@ use Bambamboole\MyCms\Commands\UpdateCommand;
 use Bambamboole\MyCms\Models\Post;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
+use Bambamboole\MyCms\Theme\ThemeInterface;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
 use RalphJSmit\Laravel\SEO\SEOManager;
@@ -44,6 +45,9 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
+        $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
+        $this->app->singleton(MyCms::class);
+        $this->app->singleton(MyCmsPlugin::class);
         $this->app->afterResolving(Schedule::class, function (Schedule $schedule) {
             $schedule->command(RunHealthChecksCommand::class)->everyMinute();
         });

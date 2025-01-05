@@ -6,32 +6,19 @@ namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
+use Bambamboole\MyCms\Theme\ThemeInterface;
 use Datlechin\FilamentMenuBuilder\Models\Menu;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Support\Collection;
 
 readonly class MyCms
 {
-    public function __construct(protected Repository $config) {}
+    public function __construct(protected ThemeInterface $theme) {}
 
-    public function getPageView(): string
+    public function registeredSettings(): array
     {
-        return $this->config->get('mycms.theme.views.page_view');
-    }
-
-    public function getPostIndexView(): string
-    {
-        return $this->config->get('mycms.theme.views.post_index_view');
-    }
-
-    public function getPostView(): string
-    {
-        return $this->config->get('mycms.theme.views.post_view');
-    }
-
-    public function getTagView(): string
-    {
-        return $this->config->get('mycms.theme.views.tag_view');
+        return array_merge([
+            GeneralSettings::class,
+        ], method_exists($this->theme, 'registeredSettings') ? $this->theme->registeredSettings() : []);
     }
 
     public function getGeneralSettings()
@@ -49,5 +36,10 @@ readonly class MyCms
         $menu = Menu::location($location);
 
         return $menu ? $menu->menuItems : collect();
+    }
+
+    public function theme(): ThemeInterface
+    {
+        return $this->theme;
     }
 }

@@ -14,6 +14,6 @@ class TagsController
         $tag = Tag::where('slug->en', $slug)->firstOrFail();
         $posts = Post::published()->withAnyTags([$tag])->paginate(5);
 
-        return view(MyCms::getTagView(), ['tag' => $tag, 'posts' => $posts]);
+        return MyCms::theme()->getTagView($tag, $posts);
     }
 }

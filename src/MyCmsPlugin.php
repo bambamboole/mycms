@@ -10,6 +10,7 @@ use Bambamboole\MyCms\Filament\Resources\PostResource;
 use Bambamboole\MyCms\Filament\Resources\RoleResource;
 use Bambamboole\MyCms\Filament\Resources\UserResource;
 use Bambamboole\MyCms\Models\Page;
+use Bambamboole\MyCms\Theme\ThemeInterface;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
 use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
@@ -24,6 +25,8 @@ use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class MyCmsPlugin implements Plugin
 {
+    public function __construct(protected ThemeInterface $theme) {}
+
     public static function make(): self
     {
         return app(static::class);
@@ -53,7 +56,7 @@ class MyCmsPlugin implements Plugin
         $menuPlugin = FilamentMenuBuilderPlugin::make()
             ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
             ->navigationGroup('Admin');
-        foreach (config('mycms.theme.menus') as $key => $label) {
+        foreach ($this->theme->menuLocations() as $key => $label) {
             $menuPlugin->addLocation($key, $label);
         }
         $panel->plugin($menuPlugin);
@@ -64,6 +67,10 @@ class MyCmsPlugin implements Plugin
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render(sprintf('<x-filament::link href="/">%s</x-filament::link>', __('mycms::general.go-to-site-link'))),
         );
+
+        if (method_exists($this->theme, 'configurePanel')) {
+            $this->theme->configurePanel($panel);
+        }
     }
 
     public function boot(Panel $panel): void

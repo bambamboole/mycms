@@ -15,6 +15,6 @@ class PagesController
             ->where('slug', $request->uri()->path())
             ->firstOrFail();
 
-        return view(MyCms::getPageView(), ['page' => $page]);
+        return MyCms::theme()->getPageView($page);
     }
 }
