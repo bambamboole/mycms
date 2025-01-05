@@ -42,10 +42,13 @@ class InstallCommand extends Command
         }
 
         $userModel = config('mycms.models.user');
-
-        if (!in_array('Spatie\\Permission\\Traits\\HasRoles', class_uses($userModel))) {
+        $loader = require base_path('vendor/autoload.php');
+        $userModelFileContent = $filesystem->get($loader->findFile($userModel));
+        $hasRolesTrait = str_contains($userModelFileContent, 'use Spatie\Permission\Traits\HasRoles;');
+        if (!$hasRolesTrait) {
+            $this->info('The HasRoles trait is not used in the User model.');
             if (confirm('Do you want to add the HasRoles trait to the User model?')) {
-                $loader = require base_path('vendor/autoload.php');
+
                 $filePath = $loader->findFile($userModel);
 
                 $content = $filesystem->get($filePath);
