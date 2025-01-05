@@ -2,10 +2,10 @@
     <x-filament::tabs>
         @foreach($this->getSettings() as $settings)
             <x-filament::tabs.item
-                icon="heroicon-o-cog-6-tooth"
+                icon="{{ $settings::icon() }}"
                 alpine-active="activeTab === '{{ $settings::group() }}'"
                 x-on:click="activeTab = '{{ $settings::group() }}'">
-                {{ \Illuminate\Support\Str::headline($settings::group()) }}
+                {{ __(sprintf('mycms::pages/settings.groups.%s.label', $settings::group())) }}
             </x-filament::tabs.item>
 
         @endforeach
@@ -20,7 +20,7 @@
                 {{ $this->$formProp }}
                 <div>
                     <x-filament::button type="submit" size="sm">
-                        Submit
+                        {{ __('mycms::pages/settings.form.submit') }}
                     </x-filament::button>
                 </div>
             </x-filament-panels::form>

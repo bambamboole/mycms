@@ -19,10 +19,6 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'Content';
-
     protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Form $form): Form
@@ -31,6 +27,9 @@ class PostResource extends Resource
             ->schema([
                 Forms\Components\Section::make()->columnSpan(2)->schema([
                     TextInput::make('title')
+                        ->label('mycms::resources/post.fields.title.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.title.helper-text'))
                         ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
                             if (!$get('is_slug_changed_manually') && filled($state)) {
                                 $set('slug', Str::slug($state));
@@ -38,14 +37,24 @@ class PostResource extends Resource
                         })
                         ->live(debounce: 300)
                         ->required(),
-                    Forms\Components\Textarea::make('excerpt')->rows(3)
+                    Forms\Components\Textarea::make('excerpt')
+                        ->label('mycms::resources/post.fields.excerpt.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.excerpt.helper-text'))
+                        ->rows(3)
                         ->required(),
                     Forms\Components\MarkdownEditor::make('content')
+                        ->label('mycms::resources/post.fields.content.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.content.helper-text'))
                         ->required()
                         ->fileAttachmentsDisk(config('media-library.disk_name')),
                 ]),
                 Forms\Components\Section::make()->columnStart(3)->columnSpan(1)->schema([
                     TextInput::make('slug')
+                        ->label('mycms::resources/post.fields.slug.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.slug.helper-text'))
                         ->afterStateUpdated(function (Forms\Set $set) {
                             $set('is_slug_changed_manually', true);
                         })
@@ -53,9 +62,21 @@ class PostResource extends Resource
                     Hidden::make('is_slug_changed_manually')
                         ->default(false)
                         ->dehydrated(false),
-                    SpatieMediaLibraryFileUpload::make('Image')->collection('featured_image')->imageEditor(),
-                    SpatieTagsInput::make('tags'),
-                    Forms\Components\DateTimePicker::make('published_at')->seconds(false),
+                    SpatieMediaLibraryFileUpload::make('Image')
+                        ->label('mycms::resources/post.fields.image.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.image.helper-text'))
+                        ->collection('featured_image')
+                        ->imageEditor(),
+                    SpatieTagsInput::make('tags')
+                        ->label('mycms::resources/post.fields.tags.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.tags.helper-text')),
+                    Forms\Components\DateTimePicker::make('published_at')
+                        ->label('mycms::resources/post.fields.published_at.label')
+                        ->translateLabel()
+                        ->helperText(__('mycms::resources/post.fields.published_at.helper-text'))
+                        ->seconds(false),
                 ]),
             ]);
     }
@@ -65,12 +86,17 @@ class PostResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->label('mycms::resources/post.table.columns.id')
+                    ->translateLabel()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('mycms::resources/post.table.columns.title')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('author.name')
-                    ->label('Author')
+                    ->label('mycms::resources/post.table.columns.author')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
             ])
@@ -78,20 +104,17 @@ class PostResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('mycms::resources/post.table.actions.edit')
+                    ->translateLabel(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('mycms::resources/post.table.bulk-actions.delete')
+                        ->translateLabel(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
@@ -102,5 +125,20 @@ class PostResource extends Resource
             'edit' => Pages\EditPost::route('/{record}/edit'),
             'revisions' => Pages\PostRevisions::route('/{record}/revisions'),
         ];
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('mycms::resources/post.navigation-group');
+    }
+
+    public static function getNavigationIcon(): string
+    {
+        return __('mycms::resources/post.navigation-icon');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('mycms::resources/post.navigation-label');
     }
 }

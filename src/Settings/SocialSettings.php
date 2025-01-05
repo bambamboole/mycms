@@ -20,21 +20,32 @@ class SocialSettings extends Settings implements MyCmsSettingsInterface
         return 'social';
     }
 
+    public static function icon(): string
+    {
+        return 'heroicon-o-chat-bubble-left-right';
+    }
+
     public function form(): array
     {
         return [
             TextInput::make('x_username')
                 ->prefix('https://x.com/')
                 ->nullable()
-                ->helperText('Your X username. Keeping blank will also remove the X icon from the footer.'),
+                ->label('mycms::pages/settings.groups.social.fields.x_username.label')
+                ->translateLabel()
+                ->helperText(__('mycms::pages/settings.groups.social.fields.x_username.helper-text')),
             TextInput::make('linkedin_username')
                 ->prefix('https://www.linkedin.com/in/')
                 ->nullable()
-                ->helperText('Your LinkedIn username. Keeping blank will also remove the LinkedIn icon from the footer.'),
+                ->label('mycms::pages/settings.groups.social.fields.linkedin_username.label')
+                ->translateLabel()
+                ->helperText(__('mycms::pages/settings.groups.social.fields.linkedin_username.helper-text')),
             TextInput::make('github_username')
                 ->prefix('https://github.com/')
                 ->nullable()
-                ->helperText('Your GitHub username. Keeping blank will also remove the GitHub icon from the footer.'),
+                ->label('mycms::pages/settings.groups.social.fields.github_username.label')
+                ->translateLabel()
+                ->helperText(__('mycms::pages/settings.groups.social.fields.github_username.helper-text')),
         ];
     }
 

@@ -19,14 +19,23 @@ class GeneralSettings extends Settings implements MyCmsSettingsInterface
         return 'general';
     }
 
+    public static function icon(): string
+    {
+        return 'heroicon-o-globe-alt';
+    }
+
     public function form(): array
     {
         return [
             TextInput::make('site_name')
-                ->required()
-                ->helperText('The name of your site. This will be used for the title and other Open Graph tags'),
+                ->label('mycms::pages/settings.groups.general.fields.site_name.label')
+                ->translateLabel()
+                ->helperText(__('mycms::pages/settings.groups.general.fields.site_name.helper-text'))
+                ->required(),
             Textarea::make('description')
-                ->helperText('The description of your site. This will be used for the description and other Open Graph tags')
+                ->label('mycms::pages/settings.groups.general.fields.description.label')
+                ->translateLabel()
+                ->helperText(__('mycms::pages/settings.groups.general.fields.description.helper-text'))
                 ->rows(2),
         ];
     }

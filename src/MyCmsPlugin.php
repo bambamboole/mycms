@@ -62,7 +62,7 @@ class MyCmsPlugin implements Plugin
         $panel->plugin(FilamentShieldPlugin::make());
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
-            fn () => Blade::render('<x-filament::link href="/">Go to Site</x-filament::link>'),
+            fn () => Blade::render(sprintf('<x-filament::link href="/">%s</x-filament::link>', __('mycms::general.go-to-site-link'))),
         );
     }
 

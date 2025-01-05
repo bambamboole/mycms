@@ -17,15 +17,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use RalphJSmit\Filament\SEO\SEO;
 
 class PageResource extends Resource
 {
     protected static ?string $model = Page::class;
-
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
-    protected static ?string $navigationGroup = 'Content';
 
     protected static ?string $recordTitleAttribute = 'title';
 
@@ -38,25 +33,28 @@ class PageResource extends Resource
                         Tab::make('Content')->schema([
                             Forms\Components\Section::make()->columnSpan(2)->schema([
                                 TextInput::make('title')
+                                    ->label('mycms::resources/page.fields.title.label')
+                                    ->translateLabel()
+                                    ->helperText(__('mycms::resources/page.fields.title.helper-text'))
                                     ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
                                         if (!$get('is_slug_changed_manually') && filled($state)) {
                                             $set('slug', Str::slug($state));
                                         }
                                     })
                                     ->live(debounce: 300)
-                                    ->helperText(function (?string $state): string {
-                                        return (string) Str::of(strlen($state))
-                                            ->append(' / ')
-                                            ->append(60 .' ')
-                                            ->append(Str::of(__('filament-seo::translations.characters'))->lower());
-                                    })
                                     ->required(),
                                 Forms\Components\MarkdownEditor::make('content')
+                                    ->label('mycms::resources/page.fields.content.label')
+                                    ->translateLabel()
+                                    ->helperText(__('mycms::resources/page.fields.content.helper-text'))
                                     ->required()
                                     ->fileAttachmentsDisk(config('media-library.disk_name')),
                             ]),
                             Forms\Components\Section::make()->columnStart(3)->columnSpan(2)->schema([
                                 TextInput::make('slug')
+                                    ->label('mycms::resources/page.fields.slug.label')
+                                    ->translateLabel()
+                                    ->helperText(__('mycms::resources/page.fields.slug.helper-text'))
                                     ->afterStateUpdated(function (Forms\Set $set) {
                                         $set('is_slug_changed_manually', true);
                                     })
@@ -64,13 +62,19 @@ class PageResource extends Resource
                                 Hidden::make('is_slug_changed_manually')
                                     ->default(false)
                                     ->dehydrated(false),
-                                Forms\Components\DateTimePicker::make('published_at')->seconds(false),
+                                Forms\Components\DateTimePicker::make('published_at')
+                                    ->label('mycms::resources/page.fields.published_at.label')
+                                    ->translateLabel()
+                                    ->helperText(__('mycms::resources/page.fields.published_at.helper-text'))
+                                    ->seconds(false),
                             ]),
                         ]),
                         Tab::make('SEO')->schema([
                             Group::make([
                                 Textarea::make('description')
-                                    ->label('SEO Description')
+                                    ->label('mycms::resources/page.fields.description.label')
+                                    ->translateLabel()
+                                    ->helperText(__('mycms::resources/page.fields.description.helper-text'))
                                     ->columnSpan(2),
                                 // here we can add further SEO fields
                             ])
@@ -101,11 +105,22 @@ class PageResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
+                    ->label('mycms::resources/page.table.columns.id')
+                    ->translateLabel()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('mycms::resources/page.table.columns.title')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('mycms::resources/page.table.columns.slug')
+                    ->translateLabel()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('author.name')
+                    ->label('mycms::resources/page.table.columns.author')
+                    ->translateLabel()
                     ->searchable()
                     ->sortable(),
             ])
@@ -113,20 +128,17 @@ class PageResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->label('mycms::resources/page.table.actions.edit')
+                    ->translateLabel(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('mycms::resources/page.table.bulk-actions.delete')
+                        ->translateLabel(),
                 ]),
             ]);
-    }
-
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
     }
 
     public static function getPages(): array
@@ -143,5 +155,20 @@ class PageResource extends Resource
         return [
             HomePageWidget::class,
         ];
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('mycms::resources/page.navigation-group');
+    }
+
+    public static function getNavigationIcon(): string
+    {
+        return __('mycms::resources/page.navigation-icon');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('mycms::resources/page.navigation-label');
     }
 }

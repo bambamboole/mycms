@@ -25,11 +25,6 @@ class MyCmsServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('mycms')
             ->hasConfigFile()
@@ -41,6 +36,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
                 '../settings/create_general_settings',
                 '../settings/create_social_settings',
             ])
+            ->hasTranslations()
             ->hasAssets()
             ->hasCommands([InstallCommand::class, UpdateCommand::class, PublishCommand::class]);
 

@@ -6,6 +6,8 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Concerns\CanUseDatabaseTransactions;
 use Filament\Pages\Concerns\HasUnsavedDataChangesAlert;
 use Filament\Pages\Page;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Support\Str;
 
 class SettingsPage extends Page
 {
@@ -13,16 +15,6 @@ class SettingsPage extends Page
     use HasUnsavedDataChangesAlert;
 
     protected static string $view = 'mycms::filament.pages.settings-page';
-
-    protected static ?string $navigationGroup = 'Admin';
-
-    protected static ?string $navigationIcon = 'heroicon-o-cog';
-
-    protected static ?string $navigationLabel = 'Settings';
-
-    protected ?string $heading = 'Settings';
-
-    protected ?string $subheading = 'Configure your MyCMS site';
 
     public ?array $data = [];
 
@@ -53,7 +45,7 @@ class SettingsPage extends Page
         $instance->save();
         Notification::make()
             ->success()
-            ->title($setting::group().' settings saved!')
+            ->title(__('mycms::pages/settings.notifications.saved', ['group' => Str::headline($setting::group())]))
             ->send();
     }
 
@@ -64,5 +56,30 @@ class SettingsPage extends Page
                 ->schema(app($setting)->form())
                 ->statePath('data.'.$setting::group())])
             ->toArray();
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return parent::getNavigationGroup() ?? __('mycms::pages/settings.navigation-group');
+    }
+
+    public static function getNavigationIcon(): string|Htmlable|null
+    {
+        return parent::getNavigationIcon() ?? __('mycms::pages/settings.navigation-icon');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('mycms::pages/settings.navigation-label');
+    }
+
+    public function getHeading(): string|Htmlable
+    {
+        return __('mycms::pages/settings.heading');
+    }
+
+    public function getSubheading(): string|Htmlable|null
+    {
+        return __('mycms::pages/settings.subheading');
     }
 }
