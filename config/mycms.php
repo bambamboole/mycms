@@ -10,5 +10,5 @@ return [
     'models' => [
         'user' => 'App\Models\User',
     ],
-    'theme' => \Bambamboole\MyCms\Theme\DefaultTheme::class,
+    'theme' => \Bambamboole\MyCms\Theme\BlankTheme::class,
 ];

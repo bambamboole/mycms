@@ -4,11 +4,10 @@ namespace Bambamboole\MyCms\Http;
 
 use Bambamboole\MyCms\Facades\MyCms;
 use Bambamboole\MyCms\Models\Post;
-use Illuminate\Contracts\View\View;
 
 class PostsController
 {
-    public function index(): View
+    public function index()
     {
         $posts = Post::query()
             ->published()
@@ -19,7 +18,7 @@ class PostsController
         return MyCms::theme()->getPostIndexView($posts);
     }
 
-    public function show($slug): View
+    public function show($slug)
     {
         $post = Post::query()
             ->published()

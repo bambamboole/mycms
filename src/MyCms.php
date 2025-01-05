@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Settings\GeneralSettings;
-use Bambamboole\MyCms\Settings\SocialSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use Datlechin\FilamentMenuBuilder\Models\Menu;
 use Illuminate\Support\Collection;
@@ -21,14 +20,9 @@ readonly class MyCms
         ], method_exists($this->theme, 'registeredSettings') ? $this->theme->registeredSettings() : []);
     }
 
-    public function getGeneralSettings()
+    public function getGeneralSettings(): GeneralSettings
     {
         return app(GeneralSettings::class);
-    }
-
-    public function getSocialSettings()
-    {
-        return app(SocialSettings::class);
     }
 
     public function getMenuItems(string $location): Collection

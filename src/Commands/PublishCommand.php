@@ -30,8 +30,8 @@ class PublishCommand extends Command
         // Publish spatie/laravel-permission migrations
         $this->call('vendor:publish', ['--tag' => 'permission-migrations']);
 
-        $this->call('vendor:publish', ['--tag' => 'mycms-assets']);
         $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
+        $this->call('vendor:publish', ['--tag' => 'mycms-config']);
         $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);
         $this->call('vendor:publish', ['--tag' => 'tags-migrations']);
 
