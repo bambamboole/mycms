@@ -5,7 +5,6 @@ namespace Bambamboole\MyCms;
 use Bambamboole\MyCms\Commands\InstallCommand;
 use Bambamboole\MyCms\Commands\PublishCommand;
 use Bambamboole\MyCms\Commands\UpdateCommand;
-use Bambamboole\MyCms\Models\Post;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Settings\SocialSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
@@ -65,8 +64,6 @@ class MyCmsServiceProvider extends PackageServiceProvider
             [$this->getPackageBaseDir().'/database/settings'],
         ));
 
-        $config->set('feed.feeds.main.items', [Post::class, 'getFeedItems']);
-        $config->set('feed.feeds.main.url', '/rss');
         // @TODO find a better way to register theme stuff
         $config->set('blade-icons.sets.default', [
             'path' => 'vendor/bambamboole/mycms/resources/views/themes/default/svg',
