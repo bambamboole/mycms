@@ -53,6 +53,7 @@ class MyCmsPlugin implements Plugin
         $panel->pages([
             SettingsPage::class,
         ]);
+        $panel->widgets([PostResource\Widgets\LatestPostWidget::class]);
         $menuPlugin = FilamentMenuBuilderPlugin::make()
             ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
             ->navigationGroup('Admin');
