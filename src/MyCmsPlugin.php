@@ -19,9 +19,9 @@ use Filament\Contracts\Plugin;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Auth\EditProfile;
 use Filament\Panel;
+use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
-use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
 
 class MyCmsPlugin implements Plugin
 {
@@ -43,9 +43,7 @@ class MyCmsPlugin implements Plugin
             NavigationGroup::make('Content')->collapsible(false),
             NavigationGroup::make('Admin')->collapsible()->collapsed(),
         ]);
-        if (config('mycms.environment_indicator.enabled')) {
-            $panel->plugin(EnvironmentIndicatorPlugin::make());
-        }
+
         $panel->resources([PageResource::class, PostResource::class, UserResource::class, RoleResource::class]);
         $panel->pages([
             SettingsPage::class,
@@ -66,6 +64,19 @@ class MyCmsPlugin implements Plugin
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render(sprintf('<x-filament::link href="/">%s</x-filament::link>', __('mycms::general.go-to-site-link'))),
         );
+
+        $panel->renderHook('panels::global-search.before', function () {
+            $env = app()->environment();
+            return view('mycms::filament.snippets.environment-indicator', [
+                'color' => match ($env) {
+                    'production' => Color::Red,
+                    'staging' => Color::Orange,
+                    'development' => Color::Blue,
+                    default => Color::Pink,
+                },
+                'environment' => $env,
+            ]);
+        });
 
         if (method_exists($this->theme, 'configurePanel')) {
             $this->theme->configurePanel($panel);
