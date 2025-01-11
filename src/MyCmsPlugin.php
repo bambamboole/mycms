@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Filament\Pages\SettingsPage;
+use Bambamboole\MyCms\Filament\Pages\SiteHealthPage;
 use Bambamboole\MyCms\Filament\Resources\PageResource;
 use Bambamboole\MyCms\Filament\Resources\PostResource;
 use Bambamboole\MyCms\Filament\Resources\RoleResource;
@@ -21,7 +22,6 @@ use Filament\Panel;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
 use pxlrbt\FilamentEnvironmentIndicator\EnvironmentIndicatorPlugin;
-use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class MyCmsPlugin implements Plugin
 {
@@ -46,12 +46,10 @@ class MyCmsPlugin implements Plugin
         if (config('mycms.environment_indicator.enabled')) {
             $panel->plugin(EnvironmentIndicatorPlugin::make());
         }
-        if (config('mycms.application_health.enabled')) {
-            $panel->plugin(FilamentSpatieLaravelHealthPlugin::make()->navigationGroup('Admin')->navigationLabel('Application Health'));
-        }
         $panel->resources([PageResource::class, PostResource::class, UserResource::class, RoleResource::class]);
         $panel->pages([
             SettingsPage::class,
+            SiteHealthPage::class,
         ]);
         $panel->widgets([PostResource\Widgets\LatestPostWidget::class]);
         $menuPlugin = FilamentMenuBuilderPlugin::make()

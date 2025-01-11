@@ -5,10 +5,12 @@ namespace Bambamboole\MyCms;
 use Bambamboole\MyCms\Commands\InstallCommand;
 use Bambamboole\MyCms\Commands\PublishCommand;
 use Bambamboole\MyCms\Commands\UpdateCommand;
+use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\Kernel;
+use Livewire\Livewire;
 use RalphJSmit\Laravel\SEO\SEOManager;
 use RalphJSmit\Laravel\SEO\TagManager;
 use Spatie\Health\Checks\Checks\CacheCheck;
@@ -92,5 +94,10 @@ class MyCmsServiceProvider extends PackageServiceProvider
                 fn (Kernel $kernel) => $kernel->prependMiddleware(RenderTorchlight::class),
             );
         }
+    }
+
+    public function packageBooted()
+    {
+        Livewire::component('health-check-result', HealthCheckResultWidget::class);
     }
 }
