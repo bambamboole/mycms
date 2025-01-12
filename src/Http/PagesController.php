@@ -11,8 +11,7 @@ class PagesController
 {
     public function show(Request $request, string $slug = '/')
     {
-        dump('2');
-        dump(config('database'));
+        dump(config('database.connections.sqlite.database'));
         DB::reconnect();
         dd(Page::query()->get());
         $page = Page::query()
@@ -22,5 +21,3 @@ class PagesController
         return MyCms::theme()->getPageView($page);
     }
 }
-// '/Users/bambamboole/Projects/opensource/mycms/tests/../workbench/database/dusk.sqlite';
-// '/Users/bambamboole/Projects/opensource/mycms/tests/../workbench/database/dusk.sqlite';

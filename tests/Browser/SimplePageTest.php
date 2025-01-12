@@ -16,8 +16,8 @@ class SimplePageTest extends DuskTestCase
             'content' => 'MyCMS is awesome!',
         ]);
 
-        dump('1');
-        dump(config('database'));
+        dump(Page::all());
+        dump(config('database.connections.sqlite.database'));
 
         $this->browse(function (Browser $browser) {
             $browser->visit('/foo')
