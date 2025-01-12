@@ -4,6 +4,7 @@ namespace Bambamboole\MyCms\Database\Factories;
 
 use Bambamboole\MyCms\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /** @extends Factory<Post> */
@@ -23,5 +24,12 @@ class PostFactory extends Factory
             'excerpt' => fake()->sentence, // secret
             'content' => fake()->paragraphs(rand(3, 10), true),
         ];
+    }
+
+    public function published(?Carbon $publishedAt = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'published_at' => $publishedAt ?? now()->subDays(rand(0, 365)),
+        ]);
     }
 }

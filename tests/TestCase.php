@@ -4,12 +4,19 @@ namespace Bambamboole\MyCms\Tests;
 
 use Bambamboole\MyCms\MyCmsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Livewire\LivewireServiceProvider;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Orchestra\Testbench\Attributes\WithMigration;
+use Orchestra\Testbench\Concerns\WithWorkbench;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\Health\HealthServiceProvider;
+use Workbench\App\Models\User;
 
+#[WithMigration]
 class TestCase extends Orchestra
 {
+    use RefreshDatabase, WithWorkbench;
+
+    protected $enablesPackageDiscoveries = true;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,19 +29,19 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            HealthServiceProvider::class,
-            LivewireServiceProvider::class,
             MyCmsServiceProvider::class,
         ];
     }
 
-    public function getEnvironmentSetUp($app)
+    protected function defineDatabaseMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/settings');
+    }
+
+    public function defineEnvironment($app)
     {
         config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_mycms_table.php.stub';
-        $migration->up();
-        */
+        config()->set('mycms.models.user', User::class);
     }
 }
