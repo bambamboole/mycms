@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Concerns\WithWorkbench;
+use Spatie\Health\HealthServiceProvider;
 use Workbench\App\Models\User;
 
 #[WithMigration]
@@ -31,6 +32,7 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     protected function getPackageProviders($app)
     {
         return [
+            HealthServiceProvider::class,
             LivewireServiceProvider::class,
             MyCmsServiceProvider::class,
         ];
