@@ -5,6 +5,7 @@ namespace Bambamboole\MyCms\Tests;
 use Bambamboole\MyCms\MyCmsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Workbench\App\Models\User;
@@ -30,6 +31,7 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
     protected function getPackageProviders($app)
     {
         return [
+            LivewireServiceProvider::class,
             MyCmsServiceProvider::class,
         ];
     }
