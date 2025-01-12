@@ -67,6 +67,7 @@ class MyCmsPlugin implements Plugin
 
         $panel->renderHook('panels::global-search.before', function () {
             $env = app()->environment();
+
             return view('mycms::filament.snippets.environment-indicator', [
                 'color' => match ($env) {
                     'production' => Color::Red,

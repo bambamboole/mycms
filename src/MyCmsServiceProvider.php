@@ -60,16 +60,9 @@ class MyCmsServiceProvider extends PackageServiceProvider
         $config = $this->app->make(Repository::class);
 
         $config->set('settings.migrations_paths', array_merge(
-            $config->get('settings.migrations_paths'),
+            $config->get('settings.migrations_paths', []),
             [$this->getPackageBaseDir().'/database/settings'],
         ));
-
-        Health::checks([
-            EnvironmentCheck::new(),
-            OptimizedAppCheck::new(),
-            ScheduleCheck::new(),
-            CacheCheck::new(),
-        ]);
 
         $this->app->afterResolving(SEOManager::class, function (SEOManager $seoManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
@@ -99,5 +92,12 @@ class MyCmsServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         Livewire::component('health-check-result', HealthCheckResultWidget::class);
+
+        Health::checks([
+            EnvironmentCheck::new(),
+            OptimizedAppCheck::new(),
+            ScheduleCheck::new(),
+            CacheCheck::new(),
+        ]);
     }
 }

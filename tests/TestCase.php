@@ -4,7 +4,9 @@ namespace Bambamboole\MyCms\Tests;
 
 use Bambamboole\MyCms\MyCmsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Health\HealthServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -20,6 +22,8 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            HealthServiceProvider::class,
+            LivewireServiceProvider::class,
             MyCmsServiceProvider::class,
         ];
     }

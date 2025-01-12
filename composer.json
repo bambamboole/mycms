@@ -40,10 +40,11 @@
         "torchlight/torchlight-laravel": "^0.6.0"
     },
     "require-dev": {
+        "larastan/larastan": "^3.0.2",
         "laravel/pint": "^1.14",
         "nunomaduro/collision": "^8.1.1||^7.10.0",
-        "larastan/larastan": "^3.0.2",
         "orchestra/testbench": "^9.0.0||^8.22.0",
+        "orchestra/testbench-dusk": "^9.11",
         "pestphp/pest": "^3.0",
         "pestphp/pest-plugin-arch": "^3.0",
         "pestphp/pest-plugin-laravel": "^3.0",
@@ -66,12 +67,29 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": "@composer run prepare",
+        "post-autoload-dump": [
+            "@clear",
+            "@prepare",
+            "@dusk:install-chromedriver",
+            "@composer run prepare"
+        ],
         "prepare": "@php vendor/bin/testbench package:discover --ansi",
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
-        "format": "vendor/bin/pint"
+        "format": "vendor/bin/pint",
+        "clear": "@php vendor/bin/testbench package:purge-skeleton --ansi",
+        "build": "@php vendor/bin/testbench workbench:build --ansi",
+        "serve": [
+            "Composer\\Config::disableProcessTimeout",
+            "@build",
+            "@php vendor/bin/testbench serve --ansi"
+        ],
+        "lint": [
+            "@php vendor/bin/pint --ansi",
+            "@php vendor/bin/phpstan analyse --verbose --ansi"
+        ],
+        "dusk:install-chromedriver": "@php vendor/bin/dusk-updater detect --auto-update --ansi"
     },
     "config": {
         "sort-packages": true,
