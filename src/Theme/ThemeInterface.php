@@ -4,12 +4,13 @@ namespace Bambamboole\MyCms\Theme;
 
 use Bambamboole\MyCms\Models\Page;
 use Bambamboole\MyCms\Models\Post;
+use Bambamboole\MyCms\MyCms;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Spatie\Tags\Tag;
 
 interface ThemeInterface
 {
-    public function menuLocations(): array;
+    public function configure(MyCms $myCms): void;
 
     public function getPageView(Page $page);
 

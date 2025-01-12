@@ -32,6 +32,7 @@ class PageTest extends DuskTestCase
 
         $this->browse(function (Browser $browser) {
             $browser->visit('/foo')
+//                ->waitFor('#foo', 30)
                 ->assertSee('MyCMS is awesome!');
         });
     }

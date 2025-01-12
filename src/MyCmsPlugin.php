@@ -53,7 +53,7 @@ class MyCmsPlugin implements Plugin
         $menuPlugin = FilamentMenuBuilderPlugin::make()
             ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
             ->navigationGroup('Admin');
-        foreach ($this->theme->menuLocations() as $key => $label) {
+        foreach (\Bambamboole\MyCms\Facades\MyCms::getMenuLocations() as $key => $label) {
             $menuPlugin->addLocation($key, $label);
         }
         $panel->plugin($menuPlugin);

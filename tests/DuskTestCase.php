@@ -36,12 +36,11 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom(
-            __DIR__.'/../workbench/database/migrations'
-        );
+        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/settings');
     }
 
-    public function defineEnvironment($app)
+    public function defineEnvironment($app): void
     {
         config()->set('database.default', 'mysql');
         config()->set('database.connections.mysql.database', 'mycms_test');

@@ -4,33 +4,37 @@ namespace Bambamboole\MyCms\Theme;
 
 use Bambamboole\MyCms\Models\Page;
 use Bambamboole\MyCms\Models\Post;
+use Bambamboole\MyCms\MyCms;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\View\View;
 use Spatie\Tags\Tag;
 
 class BlankTheme implements ThemeInterface
 {
-    public function menuLocations(): array
+    public function configure(MyCms $myCms): void
     {
-        return [];
+        $myCms
+            ->registerMenuLocation('header', 'Header')
+            ->registerMenuLocation('footer', 'Footer');
     }
 
-    public function getPageView(Page $page): string
+    public function getPageView(Page $page): View
     {
-        return json_encode($page);
+        return view('mycms::themes.blank.pages-show', ['page' => $page]);
     }
 
-    public function getPostIndexView(LengthAwarePaginator $posts)
+    public function getPostIndexView(LengthAwarePaginator $posts): View
     {
-        return json_encode($posts);
+        return view('mycms::themes.blank.posts-index', ['posts' => $posts]);
     }
 
-    public function getTagView(Tag $tag, LengthAwarePaginator $posts)
+    public function getTagView(Tag $tag, LengthAwarePaginator $posts): View
     {
-        return json_encode([$tag, $posts]);
+        return view('mycms::themes.blank.posts-index', ['tag' => $tag, 'posts' => $posts]);
     }
 
-    public function getPostView(Post $post)
+    public function getPostView(Post $post): View
     {
-        return json_encode($post);
+        return view('mycms::themes.blank.posts-show', ['post' => $post]);
     }
 }
