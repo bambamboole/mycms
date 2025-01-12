@@ -4,17 +4,12 @@ namespace Bambamboole\MyCms\Filament\Pages;
 
 use Bambamboole\MyCms\Facades\MyCms;
 use Filament\Notifications\Notification;
-use Filament\Pages\Concerns\CanUseDatabaseTransactions;
-use Filament\Pages\Concerns\HasUnsavedDataChangesAlert;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Str;
 
 class SettingsPage extends Page
 {
-    use CanUseDatabaseTransactions;
-    use HasUnsavedDataChangesAlert;
-
     protected static string $view = 'mycms::filament.pages.settings-page';
 
     public ?array $data = [];
@@ -39,14 +34,14 @@ class SettingsPage extends Page
 
     public function save($group): void
     {
-        $setting = $this->getSettings()->first(fn ($setting) => $setting::group() === $group);
-        $instance = app($setting);
-        $formName = $setting::group().'SettingsForm';
+        $settingName = $this->getSettings()->first(fn (string $setting) => $this->getGroupName($setting) === $group, '');
+        $instance = app($settingName);
+        $formName = $this->getGroupName($settingName).'SettingsForm';
         $instance->fill($this->$formName->getState());
         $instance->save();
         Notification::make()
             ->success()
-            ->title(__('mycms::pages/settings.notifications.saved', ['group' => Str::headline($setting::group())]))
+            ->title(__('mycms::pages/settings.notifications.saved', ['group' => Str::headline($this->getGroupName($settingName))]))
             ->send();
     }
 
@@ -82,5 +77,10 @@ class SettingsPage extends Page
     public function getSubheading(): string|Htmlable|null
     {
         return __('mycms::pages/settings.subheading');
+    }
+
+    protected function getGroupName(string $class): string
+    {
+        return method_exists($class, 'group') ? $class::group() : class_basename($class);
     }
 }
