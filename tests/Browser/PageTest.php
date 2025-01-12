@@ -6,9 +6,23 @@ use Bambamboole\MyCms\Models\Page;
 use Bambamboole\MyCms\Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 
-class SimplePageTest extends DuskTestCase
+class PageTest extends DuskTestCase
 {
-    public function test_basic()
+    public function test_home_page_is_properly_routed()
+    {
+        Page::factory()->create([
+            'title' => 'Home page',
+            'slug' => '/',
+            'content' => 'MyCMS Homepage here!',
+        ]);
+
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/')
+                ->assertSee('MyCMS Homepage here!');
+        });
+    }
+
+    public function test_pages_are_properly_routed()
     {
         Page::factory()->create([
             'title' => 'Test Page',
@@ -16,12 +30,8 @@ class SimplePageTest extends DuskTestCase
             'content' => 'MyCMS is awesome!',
         ]);
 
-        dump(Page::all());
-        dump(config('database.connections.sqlite.database'));
-
         $this->browse(function (Browser $browser) {
             $browser->visit('/foo')
-                ->waitFor('#foo', 20)
                 ->assertSee('MyCMS is awesome!');
         });
     }

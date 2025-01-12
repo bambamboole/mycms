@@ -14,6 +14,8 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
     use RefreshDatabase, WithWorkbench;
 
+    protected array $connectionsToTransact = [];
+
     protected $enablesPackageDiscoveries = true;
 
     protected function setUp(): void
@@ -41,11 +43,10 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 
     public function defineEnvironment($app)
     {
-        config()->set('database.default', 'sqlite');
-        config()->set('database.connections.sqlite.database', __DIR__.'/../workbench/database/dusk.sqlite');
-        config()->set('database.connections.sqlite.busy_timeout', 'milliseconds');
-        config()->set('database.connections.sqlite.journal_mode', 'wal');
-        config()->set('database.connections.sqlite.synchronous', 'NORMAL');
+        config()->set('database.default', 'mysql');
+        config()->set('database.connections.mysql.database', 'mycms_test');
+        config()->set('database.connections.mysql.password', 'password');
+        config()->set('database.connections.mysql.port', 3307);
         config()->set('mycms.models.user', User::class);
     }
 }
