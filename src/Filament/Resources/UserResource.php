@@ -90,7 +90,7 @@ class UserResource extends Resource
         return parent::getNavigationGroup() ?? __('mycms::resources/user.navigation-group');
     }
 
-    public static function getNavigationIcon(): string|Htmlable|null
+    public static function getNavigationIcon(): ?string
     {
         return parent::getNavigationIcon() ?? __('mycms::resources/user.navigation-icon');
     }
