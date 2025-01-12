@@ -59,7 +59,7 @@ class SettingsPage extends Page
         return parent::getNavigationGroup() ?? __('mycms::pages/settings.navigation-group');
     }
 
-    public static function getNavigationIcon(): string|Htmlable|null
+    public static function getNavigationIcon(): ?string
     {
         return parent::getNavigationIcon() ?? __('mycms::pages/settings.navigation-icon');
     }
