@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
 use Overtrue\LaravelVersionable\Versionable;
 use Overtrue\LaravelVersionable\VersionStrategy;
+use RalphJSmit\Laravel\SEO\Models\SEO;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
@@ -22,6 +25,19 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Tags\HasTags;
 
+/**
+ * @property int $id
+ * @property int $author_id
+ * @property string $title
+ * @property string $slug
+ * @property string $excerpt
+ * @property string $content
+ * @property ?Carbon $published_at
+ * @property Carbon $updated_at
+ * @property Carbon $created_at
+ * @property User $author
+ * @property SEO $seo
+ */
 class Post extends Model implements Feedable, HasMedia
 {
     use HasFactory, HasSEO, HasTags, InteractsWithMedia, Versionable;
@@ -96,9 +112,6 @@ class Post extends Model implements Feedable, HasMedia
         return Str::markdown($this->content, extensions: $extensions);
     }
 
-    /**
-     * @return array|FeedItem
-     */
     public function toFeedItem(): FeedItem
     {
         return FeedItem::create()
@@ -127,7 +140,7 @@ class Post extends Model implements Feedable, HasMedia
         return new SEOData(
             title: $this->title,
             description: $this->excerpt,
-            author: $this->author->name,
+            author: property_exists($this->author, 'name') ? $this->author->name : null,
             published_time: $this->published_at,
             modified_time: $this->updated_at,
         );

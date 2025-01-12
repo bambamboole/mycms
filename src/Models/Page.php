@@ -9,12 +9,27 @@ use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
+use RalphJSmit\Laravel\SEO\Models\SEO;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 
+/**
+ * @property int $id
+ * @property int $author_id
+ * @property string $title
+ * @property string $slug
+ * @property string $content
+ * @property ?Carbon $published_at
+ * @property Carbon $updated_at
+ * @property Carbon $created_at
+ * @property User $author
+ * @property SEO $seo
+ */
 class Page extends Model implements MenuPanelable
 {
     use HasFactory;
@@ -65,7 +80,7 @@ class Page extends Model implements MenuPanelable
     {
         return new SEOData(
             title: $this->title,
-            author: $this->author->name,
+            author: property_exists($this->author, 'name') ? $this->author->name : null,
             published_time: $this->published_at,
             modified_time: $this->updated_at,
         );

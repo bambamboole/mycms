@@ -8,6 +8,7 @@ use Bambamboole\MyCms\Commands\UpdateCommand;
 use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\Kernel;
 use Livewire\Livewire;
@@ -48,7 +49,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
         $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
         $this->app->singleton(MyCms::class);
         $this->app->singleton(MyCmsPlugin::class);
-        $this->app->bind(SettingsContainer::class, fn () => new Settings\MyCmsSettingsContainer($this->app));
+        $this->app->bind(SettingsContainer::class, fn () => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
     }
 
     public function bootingPackage(): void

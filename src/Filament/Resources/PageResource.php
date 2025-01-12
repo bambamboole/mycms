@@ -15,7 +15,6 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 class PageResource extends Resource
@@ -78,17 +77,17 @@ class PageResource extends Resource
                                     ->columnSpan(2),
                                 // here we can add further SEO fields
                             ])
-                                ->afterStateHydrated(function (Group $component, ?Model $record): void {
+                                ->afterStateHydrated(function (Group $component, ?Page $record): void {
                                     $component->getChildComponentContainer()->fill(
                                         $record?->seo?->only('description') ?: []
                                     );
                                 })
                                 ->statePath('seo')
                                 ->dehydrated(false)
-                                ->saveRelationshipsUsing(function (Model $record, array $state): void {
+                                ->saveRelationshipsUsing(function (Page $record, array $state): void {
                                     $state = collect($state)->only(['description'])->map(fn ($value) => $value ?: null)->all();
 
-                                    if ($record->seo && $record->seo->exists) {
+                                    if ($record->seo->exists) {
                                         $record->seo->update($state);
                                     } else {
                                         $record->seo()->create($state);

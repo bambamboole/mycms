@@ -8,7 +8,7 @@
 MyCms is my package for a simple CMS. It is based on Laravel and Filament.  
 Additionally it is a bit of a patch work of different packages.
 My goal for MyCms is to be a simple CMS which can be used as a starting point for a new project.
-MyCms is currently under heavy development and can change quickly.  
+MyCms is currently under heavy development and can change quickly.
 
 ## Installation
 
@@ -17,7 +17,6 @@ You can install the package via composer:
 ```bash
 composer require bambamboole/mycms
 ```
-
 
 You can install MyCMS via its own artisan command. It is interactive and will create the first user for you.
 
@@ -38,6 +37,12 @@ $panel->plugin(MyCmsPlugin::make());
 ```
 
 ## Testing
+
+### Dusk setup
+
+We use Laravel Dusk for browser tests. The setup is using a MySQL database since it needs to be persisted between
+processes which is not possible with in memory sqlite. It currently expects a `mycms_test` database and a `root` user
+with the password `password`.
 
 ```bash
 composer test
