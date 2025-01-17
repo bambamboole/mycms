@@ -99,9 +99,6 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [
-                "datlechin/filament-menu-builder"
-            ],
             "providers": [
                 "Bambamboole\\MyCms\\MyCmsServiceProvider"
             ],
