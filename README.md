@@ -64,6 +64,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [bambamboole](https://github.com/bambamboole)
 - [All Contributors](../../contributors)
+- [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder) I learned so much about Filament by reimplementing this package.
 
 ## License
 
