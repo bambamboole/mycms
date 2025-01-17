@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+
 namespace Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel;
 
 use Bambamboole\MyCms\Models\Page;

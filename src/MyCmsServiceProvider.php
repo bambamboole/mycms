@@ -53,10 +53,10 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        $this->app->singleton(ThemeInterface::class, fn() => $this->app->make(config('mycms.theme')));
+        $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
         $this->app->singleton(MyCms::class);
         $this->app->singleton(MyCmsPlugin::class);
-        $this->app->bind(SettingsContainer::class, fn() => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
+        $this->app->bind(SettingsContainer::class, fn () => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
     }
 
     public function bootingPackage(): void
@@ -69,13 +69,13 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
         $config->set('settings.migrations_paths', array_merge(
             $config->get('settings.migrations_paths', []),
-            [$this->getPackageBaseDir() . '/database/settings'],
+            [$this->getPackageBaseDir().'/database/settings'],
         ));
 
         $this->app->afterResolving(SEOManager::class, function (SEOManager $seoManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
             config()->set('seo.title.homepage_title', $siteName);
-            config()->set('seo.title.suffix', ' | ' . $siteName);
+            config()->set('seo.title.suffix', ' | '.$siteName);
             config()->set('seo.description.fallback', \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
 
             return $seoManager;
@@ -83,7 +83,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
         $this->app->afterResolving(TagManager::class, function (TagManager $tagManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
             config()->set('seo.title.homepage_title', $siteName);
-            config()->set('seo.title.suffix', ' | ' . $siteName);
+            config()->set('seo.title.suffix', ' | '.$siteName);
             config()->set('seo.description.fallback', \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
 
             return $tagManager;
@@ -92,7 +92,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
         if (config('torchlight.token') !== null) {
             $this->app->afterResolving(
                 Kernel::class,
-                fn(Kernel $kernel) => $kernel->prependMiddleware(RenderTorchlight::class),
+                fn (Kernel $kernel) => $kernel->prependMiddleware(RenderTorchlight::class),
             );
         }
     }
@@ -125,8 +125,8 @@ class MyCmsServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('menu', __DIR__ . '/../resources/dist/menu.js'),
-            Css::make('mycms-styles', __DIR__ . '/../resources/dist/index.css'),
+            AlpineComponent::make('menu', __DIR__.'/../resources/dist/menu.js'),
+            Css::make('mycms-styles', __DIR__.'/../resources/dist/index.css'),
         ];
     }
 }
