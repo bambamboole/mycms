@@ -1,8 +1,5 @@
 <?php
 
-use Datlechin\FilamentMenuBuilder\Enums\LinkTarget;
-use Datlechin\FilamentMenuBuilder\Models\Menu;
-use Datlechin\FilamentMenuBuilder\Models\MenuItem;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,28 +8,28 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create(config('filament-menu-builder.tables.menus'), function (Blueprint $table) {
+        Schema::create('menus', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->boolean('is_visible')->default(true);
             $table->timestamps();
         });
 
-        Schema::create(config('filament-menu-builder.tables.menu_items'), function (Blueprint $table) {
+        Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Menu::class)->constrained()->cascadeOnDelete();
-            $table->foreignIdFor(MenuItem::class, 'parent_id')->nullable()->constrained($table->getTable())->nullOnDelete();
+            $table->foreignId('menu_id')->references('id')->on('menus')->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->references('id')->on($table->getTable())->nullOnDelete();
             $table->nullableMorphs('linkable');
             $table->string('title');
             $table->string('url')->nullable();
-            $table->string('target', 10)->default(LinkTarget::Self);
+            $table->string('target', 10)->default('_self');
             $table->integer('order')->default(0);
             $table->timestamps();
         });
 
-        Schema::create(config('filament-menu-builder.tables.menu_locations'), function (Blueprint $table) {
+        Schema::create('menu_locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Menu::class)->constrained()->cascadeOnDelete();
+            $table->foreignId('menu_id')->references('id')->on('menus')->cascadeOnDelete();
             $table->string('location')->unique();
             $table->timestamps();
         });
@@ -40,8 +37,8 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists(config('filament-menu-builder.tables.menu_locations'));
-        Schema::dropIfExists(config('filament-menu-builder.tables.menu_items'));
-        Schema::dropIfExists(config('filament-menu-builder.tables.menus'));
+        Schema::dropIfExists('menu_locations');
+        Schema::dropIfExists('menu_items');
+        Schema::dropIfExists('menus');
     }
 };
