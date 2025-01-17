@@ -6,15 +6,13 @@ namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Filament\Pages\SettingsPage;
 use Bambamboole\MyCms\Filament\Pages\SiteHealthPage;
+use Bambamboole\MyCms\Filament\Resources\MenuResource;
 use Bambamboole\MyCms\Filament\Resources\PageResource;
 use Bambamboole\MyCms\Filament\Resources\PostResource;
 use Bambamboole\MyCms\Filament\Resources\RoleResource;
 use Bambamboole\MyCms\Filament\Resources\UserResource;
-use Bambamboole\MyCms\Models\Page;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
-use Datlechin\FilamentMenuBuilder\FilamentMenuBuilderPlugin;
-use Datlechin\FilamentMenuBuilder\MenuPanel\ModelMenuPanel;
 use Filament\Contracts\Plugin;
 use Filament\Navigation\NavigationGroup;
 use Filament\Pages\Auth\EditProfile;
@@ -44,19 +42,19 @@ class MyCmsPlugin implements Plugin
             NavigationGroup::make('Admin')->collapsible()->collapsed(),
         ]);
 
-        $panel->resources([PageResource::class, PostResource::class, UserResource::class, RoleResource::class]);
+        $panel->resources([PageResource::class, PostResource::class, UserResource::class, RoleResource::class, MenuResource::class]);
         $panel->pages([
             SettingsPage::class,
             SiteHealthPage::class,
         ]);
         $panel->widgets([PostResource\Widgets\LatestPostWidget::class]);
-        $menuPlugin = FilamentMenuBuilderPlugin::make()
-            ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
-            ->navigationGroup('Admin');
-        foreach (\Bambamboole\MyCms\Facades\MyCms::getMenuLocations() as $key => $label) {
-            $menuPlugin->addLocation($key, $label);
-        }
-        $panel->plugin($menuPlugin);
+//        $menuPlugin = FilamentMenuBuilderPlugin::make()
+//            ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
+//            ->navigationGroup('Admin');
+//        foreach (\Bambamboole\MyCms\Facades\MyCms::getMenuLocations() as $key => $label) {
+//            $menuPlugin->addLocation($key, $label);
+//        }
+//        $panel->plugin($menuPlugin);
 
         $panel->profile(EditProfile::class, false);
         $panel->plugin(FilamentShieldPlugin::make());

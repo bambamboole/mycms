@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms\Models;
 
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\MenuPanelable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

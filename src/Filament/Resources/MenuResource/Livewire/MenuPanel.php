@@ -155,6 +155,6 @@ class MenuPanel extends Component implements HasForms
 
     public function render(): View
     {
-        return view('filament-menu-builder::livewire.panel');
+        return view('mycms::menu.livewire.panel');
     }
 }

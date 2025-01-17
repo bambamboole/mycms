@@ -6,6 +6,41 @@ return [
         'custom_text' => 'Custom Text',
         'custom_link' => 'Custom Link',
     ],
+    'custom_link' => 'Custom Link',
+    'custom_text' => 'Custom Text',
+    'open_in' => [
+        'label' => 'Open in',
+        'options' => [
+            'self' => 'Same tab',
+            'blank' => 'New tab',
+            'parent' => 'Parent tab',
+            'top' => 'Top tab',
+        ],
+    ],
+    'notifications' => [
+        'created' => [
+            'title' => 'Link created',
+        ],
+        'locations' => [
+            'title' => 'Menu locations updated',
+        ],
+    ],
+    'panel' => [
+        'empty' => [
+            'heading' => 'No items found',
+            'description' => 'There are no items in this menu.',
+        ],
+        'pagination' => [
+            'previous' => 'Previous',
+            'next' => 'Next',
+        ],
+    ],
+    'form' => [
+        'title' => 'Title',
+        'url' => 'URL',
+        'linkable_type' => 'Type',
+        'linkable_id' => 'ID',
+    ],
     'resource' => [
         'navigation-group' => 'Admin',
         'navigation-icon' => 'heroicon-o-users',

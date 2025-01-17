@@ -14,8 +14,6 @@ class PublishCommand extends Command
     {
         // publish migrations form spatie/laravel-health
         $this->call('vendor:publish', ['--tag' => 'health-migrations']);
-        // publish migrations form datlechin/filament-menu-builder
-        $this->call('vendor:publish', ['--tag' => 'filament-menu-builder-migrations']);
         // publish migrations form spatie/laravel-settings
         $this->call('vendor:publish', [
             '--provider' => 'Spatie\LaravelSettings\LaravelSettingsServiceProvider',

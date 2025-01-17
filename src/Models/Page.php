@@ -3,9 +3,9 @@
 namespace Bambamboole\MyCms\Models;
 
 use Bambamboole\MyCms\Database\Factories\PageFactory;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\HasMenuPanel;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\MenuPanelable;
 use Bambamboole\MyCms\Torchlight\TorchlightExtension;
-use Datlechin\FilamentMenuBuilder\Concerns\HasMenuPanel;
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

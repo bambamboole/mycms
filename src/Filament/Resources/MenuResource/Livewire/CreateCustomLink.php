@@ -73,6 +73,6 @@ class CreateCustomLink extends Component implements HasForms
 
     public function render(): View
     {
-        return view('filament-menu-builder::livewire.create-custom-link');
+        return view('mycms::menu.livewire.create-custom-link');
     }
 }

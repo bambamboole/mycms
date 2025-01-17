@@ -19,7 +19,6 @@
         "php": "^8.3",
         "bezhansalleh/filament-shield": "^3.3",
         "blade-ui-kit/blade-icons": "^1.7",
-        "datlechin/filament-menu-builder": "^0.6.2",
         "echolabsdev/prism": "^0.23.0",
         "filament/filament": "^3.2.100",
         "filament/spatie-laravel-media-library-plugin": "^3.2",
@@ -100,6 +99,9 @@
     },
     "extra": {
         "laravel": {
+            "dont-discover": [
+                "datlechin/filament-menu-builder"
+            ],
             "providers": [
                 "Bambamboole\\MyCms\\MyCmsServiceProvider"
             ],

@@ -1,5 +1,7 @@
 <x-filament-widgets::widget>
     <x-filament::section>
+        <div>
+
         <div class="flex justify-center items-center rounded-full p-2 {{ $this->getColor() }}">
             <x-filament::icon
                 icon="{{ $this->getIcon() }}"
@@ -19,5 +21,7 @@
                 @endif
             </dt>
         </div>
+        </div>
+
     </x-filament::section>
 </x-filament-widgets::widget>

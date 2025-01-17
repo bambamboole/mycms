@@ -5,8 +5,15 @@ namespace Bambamboole\MyCms;
 use Bambamboole\MyCms\Commands\InstallCommand;
 use Bambamboole\MyCms\Commands\PublishCommand;
 use Bambamboole\MyCms\Commands\UpdateCommand;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\CreateCustomLink;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\CreateCustomText;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\MenuItems;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\MenuPanel;
 use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
 use Bambamboole\MyCms\Theme\ThemeInterface;
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository;
@@ -46,10 +53,10 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
+        $this->app->singleton(ThemeInterface::class, fn() => $this->app->make(config('mycms.theme')));
         $this->app->singleton(MyCms::class);
         $this->app->singleton(MyCmsPlugin::class);
-        $this->app->bind(SettingsContainer::class, fn () => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
+        $this->app->bind(SettingsContainer::class, fn() => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
     }
 
     public function bootingPackage(): void
@@ -62,13 +69,13 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
         $config->set('settings.migrations_paths', array_merge(
             $config->get('settings.migrations_paths', []),
-            [$this->getPackageBaseDir().'/database/settings'],
+            [$this->getPackageBaseDir() . '/database/settings'],
         ));
 
         $this->app->afterResolving(SEOManager::class, function (SEOManager $seoManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
             config()->set('seo.title.homepage_title', $siteName);
-            config()->set('seo.title.suffix', ' | '.$siteName);
+            config()->set('seo.title.suffix', ' | ' . $siteName);
             config()->set('seo.description.fallback', \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
 
             return $seoManager;
@@ -76,7 +83,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
         $this->app->afterResolving(TagManager::class, function (TagManager $tagManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
             config()->set('seo.title.homepage_title', $siteName);
-            config()->set('seo.title.suffix', ' | '.$siteName);
+            config()->set('seo.title.suffix', ' | ' . $siteName);
             config()->set('seo.description.fallback', \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->description);
 
             return $tagManager;
@@ -85,14 +92,22 @@ class MyCmsServiceProvider extends PackageServiceProvider
         if (config('torchlight.token') !== null) {
             $this->app->afterResolving(
                 Kernel::class,
-                fn (Kernel $kernel) => $kernel->prependMiddleware(RenderTorchlight::class),
+                fn(Kernel $kernel) => $kernel->prependMiddleware(RenderTorchlight::class),
             );
         }
     }
 
     public function packageBooted()
     {
+        FilamentAsset::register(
+            $this->getAssets(),
+            $this->getAssetPackageName(),
+        );
         Livewire::component('health-check-result', HealthCheckResultWidget::class);
+        Livewire::component('menu-builder-items', MenuItems::class);
+        Livewire::component('menu-builder-panel', MenuPanel::class);
+        Livewire::component('create-custom-link', CreateCustomLink::class);
+        Livewire::component('create-custom-text', CreateCustomText::class);
 
         Health::checks([
             EnvironmentCheck::new(),
@@ -100,5 +115,18 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ScheduleCheck::new(),
             CacheCheck::new(),
         ]);
+    }
+
+    protected function getAssetPackageName(): ?string
+    {
+        return 'mycms';
+    }
+
+    protected function getAssets(): array
+    {
+        return [
+            AlpineComponent::make('menu', __DIR__ . '/../resources/dist/menu.js'),
+            Css::make('mycms-styles', __DIR__ . '/../resources/dist/index.css'),
+        ];
     }
 }

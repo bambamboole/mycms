@@ -134,6 +134,6 @@ class MenuItems extends Component implements HasActions, HasForms
 
     public function render(): View
     {
-        return view('filament-menu-builder::livewire.menu-items');
+        return view('mycms::menu.livewire.menu-items');
     }
 }
