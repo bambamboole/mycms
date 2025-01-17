@@ -10,6 +10,11 @@ class StaticMenuPanel extends AbstractMenuPanel
 {
     protected array $items = [];
 
+    public static function make(string $name = 'Static Menu'): self
+    {
+        return new self($name);
+    }
+
     public function add(string $title, Closure|string $url): static
     {
         $this->items[] = [

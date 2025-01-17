@@ -7,6 +7,11 @@ use Bambamboole\MyCms\Models\Page;
 
 class PageMenuPanel extends AbstractMenuPanel
 {
+    public static function make(string $name = 'Page Menu'): self
+    {
+        return new self($name);
+    }
+
     public function getName(): string
     {
         return 'Pages';

@@ -21,4 +21,8 @@ interface MenuPanel
     public function isCollapsible(): bool;
 
     public function isCollapsed(): bool;
+
+    public function isPaginated(): bool;
+
+    public function getPerPage(): int;
 }

@@ -26,11 +26,6 @@ abstract class AbstractMenuPanel implements MenuPanel
         $this->name = $name;
     }
 
-    public static function make(string $name = 'Static Menu'): static
-    {
-        return new static($name);
-    }
-
     public function getIdentifier(): string
     {
         return str($this->getName())
