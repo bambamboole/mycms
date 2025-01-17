@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Models\Menu;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
-use Datlechin\FilamentMenuBuilder\Models\Menu;
 use Illuminate\Support\Collection;
 
 class MyCms

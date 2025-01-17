@@ -3,9 +3,9 @@
 namespace Bambamboole\MyCms\Models;
 
 use Bambamboole\MyCms\Database\Factories\PageFactory;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\MenuPanelable;
 use Bambamboole\MyCms\Torchlight\TorchlightExtension;
-use Datlechin\FilamentMenuBuilder\Concerns\HasMenuPanel;
-use Datlechin\FilamentMenuBuilder\Contracts\MenuPanelable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +33,6 @@ use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 class Page extends Model implements MenuPanelable
 {
     use HasFactory;
-    use HasMenuPanel;
     use HasSEO;
 
     protected static string $factory = PageFactory::class;
@@ -74,6 +73,16 @@ class Page extends Model implements MenuPanelable
     public function getMenuPanelUrlUsing(): callable
     {
         return fn (self $model) => $model->slug;
+    }
+
+    public function getMenuPanelName(): string
+    {
+        return 'Pages';
+    }
+
+    public function getMenuPanelModifyQueryUsing(): callable
+    {
+        return fn (Builder $query) => $query;
     }
 
     public function getDynamicSEOData(): SEOData

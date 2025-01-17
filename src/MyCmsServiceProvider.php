@@ -5,8 +5,15 @@ namespace Bambamboole\MyCms;
 use Bambamboole\MyCms\Commands\InstallCommand;
 use Bambamboole\MyCms\Commands\PublishCommand;
 use Bambamboole\MyCms\Commands\UpdateCommand;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\CreateCustomLink;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\CreateCustomText;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\MenuItems;
+use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\MenuPanel;
 use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
 use Bambamboole\MyCms\Theme\ThemeInterface;
+use Filament\Support\Assets\AlpineComponent;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository;
@@ -92,7 +99,15 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
     public function packageBooted()
     {
+        FilamentAsset::register(
+            $this->getAssets(),
+            $this->getAssetPackageName(),
+        );
         Livewire::component('health-check-result', HealthCheckResultWidget::class);
+        Livewire::component('menu-builder-items', MenuItems::class);
+        Livewire::component('menu-builder-panel', MenuPanel::class);
+        Livewire::component('create-custom-link', CreateCustomLink::class);
+        Livewire::component('create-custom-text', CreateCustomText::class);
 
         Health::checks([
             EnvironmentCheck::new(),
@@ -100,5 +115,18 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ScheduleCheck::new(),
             CacheCheck::new(),
         ]);
+    }
+
+    protected function getAssetPackageName(): ?string
+    {
+        return 'mycms';
+    }
+
+    protected function getAssets(): array
+    {
+        return [
+            AlpineComponent::make('menu', __DIR__.'/../resources/dist/menu.js'),
+            Css::make('mycms-styles', __DIR__.'/../resources/dist/index.css'),
+        ];
     }
 }

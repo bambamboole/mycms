@@ -11,4 +11,6 @@ Route::get('/tags/{slug}', [TagsController::class, 'show'])->name('mycms.tags.sh
 
 Route::get('/rss', FeedController::class)->name('mycms.feed');
 
-Route::get('/{slug?}', [PagesController::class, 'show'])->where('slug', '.*')->name('mycms.page');
+// Route::get('/{slug?}', [PagesController::class, 'show'])->where('slug', '.*')->name('mycms.page');
+
+Route::fallback([PagesController::class, 'show']);

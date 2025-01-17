@@ -6,6 +6,5 @@
                 {{ __('mycms::pages/site-health.notifications.check_results', ['lastRanAt' => $lastRanAt->diffForHumans()]) }}
             </div>
         @endif
-
     </div>
 </x-filament-panels::page>
