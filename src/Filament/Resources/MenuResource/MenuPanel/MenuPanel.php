@@ -1,0 +1,24 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel;
+
+interface MenuPanel
+{
+    public function getIdentifier(): string;
+
+    public function getName(): string;
+
+    public function getItems(): array;
+
+    public function getSort(): int;
+
+    public function getDescription(): ?string;
+
+    public function getIcon(): ?string;
+
+    public function isCollapsible(): bool;
+
+    public function isCollapsed(): bool;
+}
