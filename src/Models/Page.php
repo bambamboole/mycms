@@ -72,7 +72,7 @@ class Page extends Model implements MenuPanelable
 
     public function getMenuPanelUrlUsing(): callable
     {
-        return fn (self $model) => $model->slug;
+        return fn (self $model) => '/'.ltrim($model->slug, '/');
     }
 
     public function getMenuPanelName(): string

@@ -3,6 +3,7 @@
 namespace Bambamboole\MyCms\Filament\Resources;
 
 use Bambamboole\MyCms\Filament\Resources\UserResource\Pages;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -35,6 +36,12 @@ class UserResource extends Resource
                     ->required()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true),
+                Select::make('roles')
+                    ->label(__('mycms::resources/user.fields.roles.label'))
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload()
+                    ->searchable(),
             ]);
     }
 
