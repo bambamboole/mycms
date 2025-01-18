@@ -3,8 +3,6 @@
 namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Blocks\BlockRegistry;
-use Bambamboole\MyCms\Blocks\MarkdownBlock;
-use Bambamboole\MyCms\Blocks\TextBlock;
 use Bambamboole\MyCms\Commands\InstallCommand;
 use Bambamboole\MyCms\Commands\PublishCommand;
 use Bambamboole\MyCms\Commands\UpdateCommand;
@@ -141,20 +139,13 @@ class MyCmsServiceProvider extends PackageServiceProvider
             CacheCheck::new(),
         ]);
 
-        $this->app->afterResolving(BlockRegistry::class, function (BlockRegistry $registry) {
-            $registry->register(new TextBlock);
-            $registry->register(new MarkdownBlock);
-
-            return $registry;
-        });
-
         Gate::policy(config('mycms.models.user'), UserPolicy::class);
         Gate::policy(Menu::class, MenuPolicy::class);
         Gate::policy(Role::class, RolePolicy::class);
         Gate::policy(Page::class, PagePolicy::class);
         Gate::policy(Post::class, PostPolicy::class);
 
-        Gate::before(function ($user, $ability) {
+        Gate::before(function ($user) {
             return $user->hasRole('super_admin') ? true : null;
         });
     }

@@ -9,19 +9,29 @@ class BlockBuilder extends Builder
     protected function setUp(): void
     {
         parent::setUp();
-        $this->blocks(app(BlockRegistry::class)->all());
+        $this->blocks(
+            $this->registry()
+                ->all()
+                ->map(fn (BlockInterface $block) => $block->getBlock())
+                ->toArray(),
+        );
 
-        $this->mutateDehydratedStateUsing(static function (?array $state): array {
+        $this->mutateDehydratedStateUsing(function (?array $state): array {
             if (!is_array($state)) {
                 return [];
             }
 
-            $registeredBlockIds = app(BlockRegistry::class)->getBlockIds();
+            $registeredBlockIds = $this->registry()->getBlockIds();
 
             return collect($state)
-                ->filter(fn (array $block) => in_array($block['type'], $registeredBlockIds, true))
+                ->filter(fn (array $block) => $registeredBlockIds->contains($block['type']))
                 ->values()
                 ->toArray();
         });
+    }
+
+    protected function registry(): BlockRegistry
+    {
+        return app(BlockRegistry::class);
     }
 }

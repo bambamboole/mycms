@@ -15,9 +15,9 @@ class BlockRegistry
         return $this;
     }
 
-    public function all(): array
+    public function all(): Collection
     {
-        return $this->blocks->map(fn (BlockInterface $block) => $block->getBlock())->toArray();
+        return $this->blocks;
     }
 
     public function raw(): array
@@ -25,9 +25,9 @@ class BlockRegistry
         return $this->blocks->toArray();
     }
 
-    public function getBlockIds(): array
+    public function getBlockIds(): Collection
     {
-        return $this->blocks->keys()->toArray();
+        return $this->blocks->keys();
     }
 
     public function getById(string $id): ?BlockInterface
