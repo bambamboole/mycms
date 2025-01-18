@@ -14,5 +14,5 @@ Route::middleware(['web', InjectAdminBar::class])->group(function () {
 
     Route::get('/rss', FeedController::class)->name('mycms.feed');
 
-    Route::fallback([PagesController::class, 'show']);
+    Route::get('/{slug?}', [PagesController::class, 'show'])->where('slug', '.*')->name('mycms.page')->fallback();
 });

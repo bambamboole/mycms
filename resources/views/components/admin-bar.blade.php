@@ -6,20 +6,20 @@
     .admin-bar {
         background-color: #333;
         color: #fff;
-        padding: 5px;
+        padding: 0 5px;
         position: fixed;
         top: 0;
         width: 100%;
         z-index: 1000;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: row;
     }
 
     .admin-bar a {
         color: #fff;
         text-decoration: none;
+        padding: 5px;
     }
 
     .admin-bar a:hover {
@@ -28,8 +28,10 @@
 
     .admin-bar .logo {
         display: inline-block;
-        padding-left: 10px;
-        padding-right: 10px;
+        font-weight: 600;
+        padding: 5px 10px;
+        border-right: 2px solid gray;
+        margin-right: 5px;
     }
 
     .admin-bar .icon {
@@ -46,6 +48,7 @@
         cursor: pointer;
         font-size: 1rem;
         margin-right: 10px;
+        margin-left: auto;
     }
 
     .admin-bar-show-button {
@@ -89,8 +92,14 @@
 </script>
 
 <div class="admin-bar" id="adminBar">
-    <span class="logo">MyCMS</span>
-    <a href="/admin">@svg('heroicon-o-link', 'icon')Back to Dashboard</a>
+    <span class="logo">{{config('app.name')}}</span>
+    <a href="{{\Filament\Facades\Filament::getDefaultPanel()->getUrl()}}">@svg('heroicon-o-link', 'icon'){{ __('mycms::general.back-to-dashboard') }}</a>
+    @if($currentPage = \Illuminate\Support\Facades\Context::get('current_page'))
+        <a href="{{\Filament\Facades\Filament::getDefaultPanel()->getResourceUrl($currentPage, 'edit')}}">@svg('heroicon-o-paint-brush', 'icon'){{ __('mycms::general.edit-page') }}</a>
+    @endif
+    @if($currentPost = \Illuminate\Support\Facades\Context::get('current_post'))
+        <a href="{{\Filament\Facades\Filament::getDefaultPanel()->getResourceUrl($currentPost, 'edit')}}">@svg('heroicon-o-paint-brush', 'icon'){{ __('mycms::general.edit-post') }}</a>
+    @endif
     <button class="admin-bar-hide-button">@svg('heroicon-o-arrow-up', 'icon')</button>
 </div>
 <button class="admin-bar-show-button">@svg('heroicon-o-arrow-down', 'icon')</button>

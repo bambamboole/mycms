@@ -4,6 +4,7 @@ namespace Bambamboole\MyCms\Http;
 
 use Bambamboole\MyCms\Facades\MyCms;
 use Bambamboole\MyCms\Models\Post;
+use Illuminate\Support\Facades\Context;
 
 class PostsController
 {
@@ -25,6 +26,7 @@ class PostsController
             ->with('tags')
             ->where('slug', $slug)
             ->firstOrFail();
+        Context::add('current_post', $post);
 
         return MyCms::theme()->getPostView($post);
     }
