@@ -24,3 +24,10 @@ it('runs registers the scheduler correctly', function () {
         ->and($events[0]->command)
         ->toContain('health:check');
 });
+
+it('needs permission to view site health page', function () {})->todo();
+
+it('needs permission to execute site health check', function () {})->todo();
+it('can execute the site health check', function () {})->todo();
+
+it('shows when the last check was executed', function () {})->todo();
