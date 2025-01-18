@@ -8,6 +8,5 @@ it('shows posts index on /blog', function () {
         ->count(2)
         ->create();
 
-    $this->get('/blog')
-        ->assertSeeText($posts->map->title->toArray());
+    $this->get('/blog')->assertSeeText($posts->map->title->toArray());
 });

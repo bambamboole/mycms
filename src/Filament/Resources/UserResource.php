@@ -105,4 +105,9 @@ class UserResource extends Resource
     {
         return __('mycms::resources/user.navigation-label');
     }
+
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
+    }
 }

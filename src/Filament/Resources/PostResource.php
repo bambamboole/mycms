@@ -141,4 +141,9 @@ class PostResource extends Resource
     {
         return __('mycms::resources/post.navigation-label');
     }
+
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
+    }
 }

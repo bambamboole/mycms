@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms\Filament\Resources;
 
+use Bambamboole\MyCms\Blocks\BlockBuilder;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Pages;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Widgets\HomePageWidget;
 use Bambamboole\MyCms\Models\Page;
@@ -42,12 +43,13 @@ class PageResource extends Resource
                                     })
                                     ->live(debounce: 300)
                                     ->required(),
-                                Forms\Components\MarkdownEditor::make('content')
-                                    ->label('mycms::resources/page.fields.content.label')
-                                    ->translateLabel()
-                                    ->helperText(__('mycms::resources/page.fields.content.helper-text'))
-                                    ->required()
-                                    ->fileAttachmentsDisk(config('media-library.disk_name')),
+                                BlockBuilder::make('blocks'),
+                                //                                Forms\Components\MarkdownEditor::make('content')
+                                //                                    ->label('mycms::resources/page.fields.content.label')
+                                //                                    ->translateLabel()
+                                //                                    ->helperText(__('mycms::resources/page.fields.content.helper-text'))
+                                //                                    ->required()
+                                //                                    ->fileAttachmentsDisk(config('media-library.disk_name')),
                             ]),
                             Forms\Components\Section::make()->columnStart(3)->columnSpan(2)->schema([
                                 TextInput::make('slug')
@@ -169,5 +171,10 @@ class PageResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('mycms::resources/page.navigation-label');
+    }
+
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
     }
 }

@@ -2,6 +2,9 @@
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Blocks\BlockRegistry;
+use Bambamboole\MyCms\Blocks\MarkdownBlock;
+use Bambamboole\MyCms\Blocks\TextBlock;
 use Bambamboole\MyCms\Commands\InstallCommand;
 use Bambamboole\MyCms\Commands\PublishCommand;
 use Bambamboole\MyCms\Commands\UpdateCommand;
@@ -10,6 +13,14 @@ use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\CreateCustomText;
 use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\MenuItems;
 use Bambamboole\MyCms\Filament\Resources\MenuResource\Livewire\MenuPanel;
 use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
+use Bambamboole\MyCms\Models\Menu;
+use Bambamboole\MyCms\Models\Page;
+use Bambamboole\MyCms\Models\Post;
+use Bambamboole\MyCms\Policies\MenuPolicy;
+use Bambamboole\MyCms\Policies\PagePolicy;
+use Bambamboole\MyCms\Policies\PostPolicy;
+use Bambamboole\MyCms\Policies\RolePolicy;
+use Bambamboole\MyCms\Policies\UserPolicy;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Css;
@@ -18,6 +29,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Foundation\Http\Kernel;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use RalphJSmit\Laravel\SEO\SEOManager;
 use RalphJSmit\Laravel\SEO\TagManager;
@@ -30,6 +42,7 @@ use Spatie\Health\Facades\Health;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\LaravelSettings\SettingsContainer;
+use Spatie\Permission\Models\Role;
 use Torchlight\Middleware\RenderTorchlight;
 
 class MyCmsServiceProvider extends PackageServiceProvider
@@ -54,6 +67,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
     public function registeringPackage()
     {
         $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
+        $this->app->singleton(BlockRegistry::class);
         $this->app->singleton(MyCms::class);
         $this->app->singleton(MyCmsPlugin::class);
         $this->app->bind(SettingsContainer::class, fn () => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
@@ -71,6 +85,17 @@ class MyCmsServiceProvider extends PackageServiceProvider
             $config->get('settings.migrations_paths', []),
             [$this->getPackageBaseDir().'/database/settings'],
         ));
+
+        $config->set('filament-shield.shield_resource.show_model_path', false);
+        $config->set('filament-shield.permission_prefixes.resource', [
+            'view',
+            'view_any',
+            'create',
+            'replicate',
+            'update',
+            'delete',
+            'delete_any',
+        ]);
 
         $this->app->afterResolving(SEOManager::class, function (SEOManager $seoManager) {
             $siteName = \Bambamboole\MyCms\Facades\MyCms::getGeneralSettings()->site_name;
@@ -115,6 +140,23 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ScheduleCheck::new(),
             CacheCheck::new(),
         ]);
+
+        $this->app->afterResolving(BlockRegistry::class, function (BlockRegistry $registry) {
+            $registry->register(new TextBlock);
+            $registry->register(new MarkdownBlock);
+
+            return $registry;
+        });
+
+        Gate::policy(config('mycms.models.user'), UserPolicy::class);
+        Gate::policy(Menu::class, MenuPolicy::class);
+        Gate::policy(Role::class, RolePolicy::class);
+        Gate::policy(Page::class, PagePolicy::class);
+        Gate::policy(Post::class, PostPolicy::class);
+
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole('super_admin') ? true : null;
+        });
     }
 
     protected function getAssetPackageName(): ?string
