@@ -94,10 +94,10 @@
 <div class="admin-bar" id="adminBar">
     <span class="logo">{{config('app.name')}}</span>
     <a href="{{\Filament\Facades\Filament::getDefaultPanel()->getUrl()}}">@svg('heroicon-o-link', 'icon'){{ __('mycms::general.back-to-dashboard') }}</a>
-    @if($currentPage = \Illuminate\Support\Facades\Context::get('current_page'))
+    @if(($currentPage = \Illuminate\Support\Facades\Context::get('current_page')) && auth()->user()->can('update_page', $currentPage))
         <a href="{{\Filament\Facades\Filament::getDefaultPanel()->getResourceUrl($currentPage, 'edit')}}">@svg('heroicon-o-paint-brush', 'icon'){{ __('mycms::general.edit-page') }}</a>
     @endif
-    @if($currentPost = \Illuminate\Support\Facades\Context::get('current_post'))
+    @if(($currentPost = \Illuminate\Support\Facades\Context::get('current_post')) && auth()->user()->can('update_post', $currentPost))
         <a href="{{\Filament\Facades\Filament::getDefaultPanel()->getResourceUrl($currentPost, 'edit')}}">@svg('heroicon-o-paint-brush', 'icon'){{ __('mycms::general.edit-post') }}</a>
     @endif
     <button class="admin-bar-hide-button">@svg('heroicon-o-arrow-up', 'icon')</button>

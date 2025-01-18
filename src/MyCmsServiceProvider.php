@@ -97,7 +97,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
         }
     }
 
-    public function packageBooted()
+    public function packageBooted(): void
     {
         FilamentAsset::register(
             $this->getAssets(),
