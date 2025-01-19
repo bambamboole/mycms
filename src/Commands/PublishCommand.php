@@ -24,7 +24,6 @@ class PublishCommand extends Command
             'mycms-config',
         ]]);
 
-
         return self::SUCCESS;
     }
 }
