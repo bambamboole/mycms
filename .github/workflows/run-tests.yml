@@ -13,15 +13,6 @@ jobs:
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: mycms_test
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
       fail-fast: true
       matrix:
@@ -58,8 +49,5 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
           composer prepare
 
-      - name: List Installed Dependencies
-        run: composer show -D
-
       - name: Execute tests
-        run: vendor/bin/pest --ci --exclude-testsuit Browser
+        run: vendor/bin/pest --ci --exclude-testsuite Browser
