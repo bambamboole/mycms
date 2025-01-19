@@ -13,6 +13,7 @@ class PublishCommand extends Command
     public function handle(): int
     {
         $this->call('vendor:publish', ['--tag' => [
+            'migrations', // Publish spatie/laravel-settings and overtrue/versionable migrations
             'health-migrations', // Publish spatie/laravel-health migrations
             'permission-migrations', // Publish spatie/laravel-permission migrations
             'medialibrary-migrations', // publish migrations form spatie/laravel-medialibrary
@@ -22,11 +23,7 @@ class PublishCommand extends Command
             'mycms-migrations',
             'mycms-config',
         ]]);
-        // We have to call this one separately since the tag is used also by other packages
-        $this->call('vendor:publish', [
-            '--provider' => 'Spatie\LaravelSettings\LaravelSettingsServiceProvider',
-            '--tag' => 'migrations',
-        ]);
+
 
         return self::SUCCESS;
     }
