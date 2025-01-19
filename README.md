@@ -36,6 +36,16 @@ $panel->plugin(MyCmsPlugin::make());
 //...
 ```
 
+## Development
+
+We use orchestra/testbench for a proper development experience. To get started you should fork the repository and clone
+it. Next you can set up the development environment by executin the following commands:
+```bash
+composer install
+vendor/bin/testbench workbench:build
+vendor/bin/testbench serve
+```
+
 ## Testing
 
 ### Dusk setup
@@ -64,7 +74,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [bambamboole](https://github.com/bambamboole)
 - [All Contributors](../../contributors)
-- [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder) I learned so much about Filament by reimplementing this package.
+- [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder) I learned so much about Filament
+  by reimplementing this package.
 
 ## License
 

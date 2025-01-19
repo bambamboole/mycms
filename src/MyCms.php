@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Blocks\BlockRegistry;
+use Bambamboole\MyCms\Blocks\MarkdownBlock;
+use Bambamboole\MyCms\Blocks\TextBlock;
 use Bambamboole\MyCms\Models\Menu;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
@@ -15,8 +18,16 @@ class MyCms
 
     protected array $settings = [GeneralSettings::class];
 
-    public function __construct(protected ThemeInterface $theme)
+    protected array $defaultBlocks = [
+        TextBlock::class,
+        MarkdownBlock::class,
+    ];
+
+    public function __construct(protected BlockRegistry $blockRegistry, protected ThemeInterface $theme)
     {
+        foreach ($this->defaultBlocks as $block) {
+            $this->blockRegistry->register(app($block));
+        }
         $this->theme->configure($this);
     }
 
@@ -35,6 +46,11 @@ class MyCms
         $menu = Menu::location($location);
 
         return $menu ? $menu->menuItems : collect();
+    }
+
+    public function blocks(): BlockRegistry
+    {
+        return $this->blockRegistry;
     }
 
     public function theme(): ThemeInterface

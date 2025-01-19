@@ -12,26 +12,17 @@ class PublishCommand extends Command
 
     public function handle(): int
     {
-        // publish migrations form spatie/laravel-health
-        $this->call('vendor:publish', ['--tag' => 'health-migrations']);
-        // publish migrations form spatie/laravel-settings
-        $this->call('vendor:publish', [
-            '--provider' => 'Spatie\LaravelSettings\LaravelSettingsServiceProvider',
-            '--tag' => 'migrations',
-        ]);
-        // publish migrations form spatie/laravel-medialibrary
-        $this->call('vendor:publish', ['--tag' => 'medialibrary-migrations']);
-        // Publish spatie/laravel-feed assets
-        $this->call('vendor:publish', ['--tag' => 'feed-assets']);
-        // Publish ralphjsmit/laravel-seo assets
-        $this->call('vendor:publish', ['--tag' => 'seo-migrations']);
-        // Publish spatie/laravel-permission migrations
-        $this->call('vendor:publish', ['--tag' => 'permission-migrations']);
-
-        $this->call('vendor:publish', ['--tag' => 'mycms-migrations']);
-        $this->call('vendor:publish', ['--tag' => 'mycms-config']);
-        $this->call('vendor:publish', ['--tag' => 'mycms-settings-migrations']);
-        $this->call('vendor:publish', ['--tag' => 'tags-migrations']);
+        $this->call('vendor:publish', ['--tag' => [
+            'migrations', // Publish spatie/laravel-settings and overtrue/versionable migrations
+            'health-migrations', // Publish spatie/laravel-health migrations
+            'permission-migrations', // Publish spatie/laravel-permission migrations
+            'medialibrary-migrations', // publish migrations form spatie/laravel-medialibrary
+            'tags-migrations', // Publish spatie/laravel-tags migrations
+            'seo-migrations', // Publish ralphjsmit/laravel-seo migrations
+            'feed-assets', // Publish spatie/laravel-feed assets
+            'mycms-migrations',
+            'mycms-config',
+        ]]);
 
         return self::SUCCESS;
     }

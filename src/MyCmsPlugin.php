@@ -48,13 +48,6 @@ class MyCmsPlugin implements Plugin
             SiteHealthPage::class,
         ]);
         $panel->widgets([PostResource\Widgets\LatestPostWidget::class]);
-        //        $menuPlugin = FilamentMenuBuilderPlugin::make()
-        //            ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
-        //            ->navigationGroup('Admin');
-        //        foreach (\Bambamboole\MyCms\Facades\MyCms::getMenuLocations() as $key => $label) {
-        //            $menuPlugin->addLocation($key, $label);
-        //        }
-        //        $panel->plugin($menuPlugin);
 
         $panel->profile(EditProfile::class, false);
         $panel->plugin(FilamentShieldPlugin::make());

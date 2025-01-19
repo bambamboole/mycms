@@ -23,6 +23,11 @@ class MenuResource extends Resource
         return __('mycms::menu.resource.navigation-label');
     }
 
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
+    }
+
     public static function getNavigationIcon(): string
     {
         return __('mycms::menu.resource.navigation-icon');

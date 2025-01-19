@@ -50,6 +50,13 @@ class Page extends Model implements MenuPanelable
         });
     }
 
+    protected function casts(): array
+    {
+        return [
+            'blocks' => 'array',
+        ];
+    }
+
     public function contentAsHtml(): string
     {
         $extensions = [new BladeExtension, new AttributesExtension];

@@ -3,6 +3,7 @@
 namespace Bambamboole\MyCms\Filament\Pages;
 
 use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Actions\Action;
 use Filament\Notifications\Notification;
@@ -15,6 +16,8 @@ use Spatie\Health\ResultStores\ResultStore;
 
 class SiteHealthPage extends Page
 {
+    use HasPageShield;
+
     protected static string $view = 'mycms::filament.pages.site-health';
 
     protected $listeners = ['refresh-component' => '$refresh'];
@@ -77,9 +80,13 @@ class SiteHealthPage extends Page
 
     protected function getHeaderWidgets(): array
     {
-        return app(ResultStore::class)
-            ->latestResults()
-            ->storedCheckResults
+        $results = app(ResultStore::class)->latestResults();
+
+        if (!$results) {
+            return [];
+        }
+
+        return $results->storedCheckResults
             ->map(function ($result) {
                 return new WidgetConfiguration(HealthCheckResultWidget::class, ['result' => $result->toArray()]);
             })

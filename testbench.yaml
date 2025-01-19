@@ -1,0 +1,25 @@
+providers:
+  - RalphJSmit\Laravel\SEO\LaravelSEOServiceProvider
+  - Livewire\LivewireServiceProvider
+  - Spatie\Permission\PermissionServiceProvider
+  - Spatie\Health\HealthServiceProvider
+  - Spatie\LaravelSettings\LaravelSettingsServiceProvider
+  - Bambamboole\MyCms\MyCmsServiceProvider
+  - Workbench\App\Providers\WorkbenchServiceProvider
+  - Workbench\App\Providers\Filament\AdminPanelProvider
+
+seeders:
+  - Workbench\Database\Seeders\DatabaseSeeder
+
+workbench:
+  install: true
+  sync:
+    - from: ./resources/dist/css
+      to: public/css/mycms
+  build:
+    - asset-publish
+    - create-sqlite-db
+    - db-wipe
+    - migrate-fresh
+  assets:
+    - laravel_assets

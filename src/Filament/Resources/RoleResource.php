@@ -20,4 +20,9 @@ class RoleResource extends FilamentShieldRoleResource
     {
         return __('mycms::resources/role.navigation-label');
     }
+
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
+    }
 }

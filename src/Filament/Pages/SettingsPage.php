@@ -3,6 +3,7 @@
 namespace Bambamboole\MyCms\Filament\Pages;
 
 use Bambamboole\MyCms\Facades\MyCms;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
@@ -10,6 +11,8 @@ use Illuminate\Support\Str;
 
 class SettingsPage extends Page
 {
+    use HasPageShield;
+
     protected static string $view = 'mycms::filament.pages.settings-page';
 
     public ?array $data = [];

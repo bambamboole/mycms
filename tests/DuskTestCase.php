@@ -2,14 +2,13 @@
 
 namespace Bambamboole\MyCms\Tests;
 
-use Bambamboole\MyCms\MyCmsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Concerns\WithWorkbench;
-use Spatie\Health\HealthServiceProvider;
 use Workbench\App\Models\User;
+
+use function Orchestra\Testbench\default_skeleton_path;
 
 #[WithMigration]
 class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
@@ -29,27 +28,20 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
         );
     }
 
-    protected function getPackageProviders($app)
-    {
-        return [
-            HealthServiceProvider::class,
-            LivewireServiceProvider::class,
-            MyCmsServiceProvider::class,
-        ];
-    }
-
     protected function defineDatabaseMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/migrations');
-        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/settings');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/orchestra/testbench-core/laravel/database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../vendor/orchestra/testbench-core/laravel/database/settings');
     }
 
     public function defineEnvironment($app): void
     {
-        config()->set('database.default', 'mysql');
-        config()->set('database.connections.mysql.database', 'mycms_test');
-        config()->set('database.connections.mysql.password', 'password');
-        config()->set('database.connections.mysql.port', 3307);
+        $sqlitePath = default_skeleton_path().'/database/database.sqlite';
+        if (!file_exists($sqlitePath)) {
+            copy($sqlitePath.'.example', $sqlitePath);
+        }
+        config()->set('database.connections.sqlite.database', $sqlitePath);
+        config()->set('database.connections.sqlite.synchronous', true);
         config()->set('mycms.models.user', User::class);
     }
 }
