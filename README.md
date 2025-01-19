@@ -42,9 +42,8 @@ We use orchestra/testbench for a proper development experience. To get started y
 it. Next you can set up the development environment by executin the following commands:
 ```bash
 composer install
-vendor/bin/testbench filament:assets
-vendor/bin/testbench mycms:publish
 vendor/bin/testbench workbench:build
+vendor/bin/testbench serve
 ```
 
 ## Testing

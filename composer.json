@@ -72,7 +72,11 @@
             "@dusk:install-chromedriver",
             "@composer run prepare"
         ],
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "prepare": [
+            "@php vendor/bin/testbench package:discover --ansi",
+            "@php vendor/bin/testbench filament:assets",
+            "@php vendor/bin/testbench mycms:publish"
+        ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",
