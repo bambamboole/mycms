@@ -39,6 +39,7 @@ class TestCase extends Orchestra
 
     public function defineEnvironment($app): void
     {
+        config()->set('database.connections.sqlite.database', ':memory:');
         config()->set('mycms.models.user', User::class);
     }
 }
