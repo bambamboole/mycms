@@ -5,6 +5,7 @@ use Bambamboole\MyCms\Models\Page;
 it('shows pages via their slug', function () {
     $this->withoutExceptionHandling();
     $title = 'test-title-to-compare';
+    //    dd(array_map(fn($table) => $table['name'], \Illuminate\Support\Facades\Schema::getTables()));
     Page::factory()
         ->create([
             'title' => $title,

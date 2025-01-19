@@ -53,6 +53,7 @@ class MyCmsServiceProvider extends PackageServiceProvider
             ->hasViews('mycms')
             ->hasRoute('web')
             ->hasMigrations([
+                'create_menus_table',
                 'create_pages_table',
                 'create_posts_table',
                 '../settings/create_general_settings',
@@ -158,8 +159,9 @@ class MyCmsServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('menu', __DIR__.'/../resources/dist/menu.js'),
-            Css::make('mycms-styles', __DIR__.'/../resources/dist/index.css'),
+            AlpineComponent::make('menu', __DIR__.'/../resources/dist/js/menu.js'),
+            Css::make('mycms-styles', __DIR__.'/../resources/dist/css/index.css'),
+            Css::make('admin-bar', __DIR__.'/../resources/dist/css/admin-bar.css'),
         ];
     }
 }

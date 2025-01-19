@@ -37,15 +37,8 @@ class TestCase extends Orchestra
         ];
     }
 
-    protected function defineDatabaseMigrations()
+    public function defineEnvironment($app): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/migrations');
-        $this->loadMigrationsFrom(__DIR__.'/../workbench/database/settings');
-    }
-
-    public function defineEnvironment($app)
-    {
-        config()->set('database.default', 'testing');
         config()->set('mycms.models.user', User::class);
     }
 }
