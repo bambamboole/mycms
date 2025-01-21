@@ -17,6 +17,9 @@ use RalphJSmit\Laravel\SEO\Models\SEO;
 use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @property int $id
@@ -30,10 +33,11 @@ use RyanChandler\CommonmarkBladeBlock\BladeExtension;
  * @property User $author
  * @property SEO $seo
  */
-class Page extends Model implements MenuPanelable
+class Page extends Model implements HasMedia, MenuPanelable
 {
     use HasFactory;
     use HasSEO;
+    use InteractsWithMedia;
 
     protected static string $factory = PageFactory::class;
 
@@ -55,6 +59,22 @@ class Page extends Model implements MenuPanelable
         return [
             'blocks' => 'array',
         ];
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('featured_image')->singleFile();
+    }
+
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->sharpen(10);
+
+        $this->addMediaConversion('featured_image')
+            ->withResponsiveImages();
     }
 
     public function contentAsHtml(): string

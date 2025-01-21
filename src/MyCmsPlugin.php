@@ -73,6 +73,8 @@ class MyCmsPlugin implements Plugin
         if (method_exists($this->theme, 'configurePanel')) {
             $this->theme->configurePanel($panel);
         }
+
+        $panel->sidebarFullyCollapsibleOnDesktop()->sidebarWidth('14rem');
     }
 
     public function boot(Panel $panel): void

@@ -65,8 +65,8 @@ class MyCmsServiceProvider extends PackageServiceProvider
 
     public function registeringPackage()
     {
-        $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
         $this->app->singleton(BlockRegistry::class);
+        $this->app->singleton(ThemeInterface::class, fn () => $this->app->make(config('mycms.theme')));
         $this->app->singleton(MyCms::class);
         $this->app->singleton(MyCmsPlugin::class);
         $this->app->bind(SettingsContainer::class, fn () => new Settings\MyCmsSettingsContainer($this->app->make(Container::class)));
