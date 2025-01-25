@@ -3,7 +3,7 @@
 namespace Bambamboole\MyCms\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\Concerns\WithWorkbench;
 use Workbench\App\Models\User;
@@ -13,9 +13,7 @@ use function Orchestra\Testbench\default_skeleton_path;
 #[WithMigration]
 class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
 {
-    use RefreshDatabase, WithWorkbench;
-
-    protected array $connectionsToTransact = [];
+    use DatabaseMigrations, WithWorkbench;
 
     protected $enablesPackageDiscoveries = true;
 
@@ -28,7 +26,7 @@ class DuskTestCase extends \Orchestra\Testbench\Dusk\TestCase
         );
     }
 
-    protected function defineDatabaseMigrations()
+    protected function beforeRefreshingDatabase()
     {
         $this->loadMigrationsFrom(__DIR__.'/../vendor/orchestra/testbench-core/laravel/database/migrations');
         $this->loadMigrationsFrom(__DIR__.'/../vendor/orchestra/testbench-core/laravel/database/settings');

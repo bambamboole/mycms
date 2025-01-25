@@ -3,8 +3,8 @@ providers:
   - Livewire\LivewireServiceProvider
   - Spatie\Permission\PermissionServiceProvider
   - Spatie\Health\HealthServiceProvider
-  - Spatie\LaravelSettings\LaravelSettingsServiceProvider
   - Bambamboole\MyCms\MyCmsServiceProvider
+  - Spatie\LaravelSettings\LaravelSettingsServiceProvider
   - Workbench\App\Providers\WorkbenchServiceProvider
   - Workbench\App\Providers\Filament\AdminPanelProvider
 
