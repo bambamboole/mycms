@@ -13,5 +13,5 @@ interface BlockInterface
 
     public function getBlock(): Block;
 
-    public function render(array $data , BasePostType $post): string|View|Htmlable;
+    public function render(array $data, BasePostType $post): string|View|Htmlable;
 }
