@@ -13,6 +13,8 @@ class BlockBuilder extends Builder
     protected function setUp(): void
     {
         parent::setUp();
+        $this->label(__('mycms::resources/post.fields.blocks.label'));
+        $this->helperText(__('mycms::resources/post.fields.blocks.helper-text'));
         $this->blocks(
             $this->registry()
                 ->all()
