@@ -6,76 +6,14 @@ use Bambamboole\MyCms\Database\Factories\PageFactory;
 use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\MenuPanelable;
 use Bambamboole\MyCms\Torchlight\TorchlightExtension;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Foundation\Auth\User;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use League\CommonMark\Extension\Attributes\AttributesExtension;
-use RalphJSmit\Laravel\SEO\Models\SEO;
-use RalphJSmit\Laravel\SEO\Support\HasSEO;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 use RyanChandler\CommonmarkBladeBlock\BladeExtension;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-/**
- * @property int $id
- * @property int $author_id
- * @property string $title
- * @property string $slug
- * @property string $content
- * @property ?Carbon $published_at
- * @property Carbon $updated_at
- * @property Carbon $created_at
- * @property User $author
- * @property SEO $seo
- */
-class Page extends Model implements HasMedia, MenuPanelable
+class Page extends BasePostType implements MenuPanelable
 {
-    use HasFactory;
-    use HasSEO;
-    use InteractsWithMedia;
-
     protected static string $factory = PageFactory::class;
-
-    protected $guarded = [];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::creating(function (self $page) {
-            if (!$page->author_id) {
-                $page->author_id = auth()->id();
-            }
-        });
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'blocks' => 'array',
-        ];
-    }
-
-    public function registerMediaCollections(): void
-    {
-        $this->addMediaCollection('featured_image')->singleFile();
-    }
-
-    public function registerMediaConversions(?Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-            ->width(368)
-            ->height(232)
-            ->sharpen(10);
-
-        $this->addMediaConversion('featured_image')
-            ->withResponsiveImages();
-    }
 
     public function contentAsHtml(): string
     {
@@ -85,11 +23,6 @@ class Page extends Model implements HasMedia, MenuPanelable
         }
 
         return Str::markdown($this->content, extensions: $extensions);
-    }
-
-    public function author(): BelongsTo
-    {
-        return $this->belongsTo(config('mycms.models.user'), 'author_id');
     }
 
     public function getMenuPanelTitleColumn(): string
