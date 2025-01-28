@@ -20,6 +20,7 @@ use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
+use Pboivin\FilamentPeek\FilamentPeekPlugin;
 
 class MyCmsPlugin implements Plugin
 {
@@ -51,6 +52,7 @@ class MyCmsPlugin implements Plugin
 
         $panel->profile(EditProfile::class, false);
         $panel->plugin(FilamentShieldPlugin::make());
+        $panel->plugin(FilamentPeekPlugin::make());
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render(sprintf('<x-filament::link href="/">%s</x-filament::link>', __('mycms::general.go-to-site-link'))),
