@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Blocks\BlockRegistry;
+use Bambamboole\MyCms\Blocks\ImageBlock;
 use Bambamboole\MyCms\Blocks\MarkdownBlock;
 use Bambamboole\MyCms\Blocks\TextBlock;
 use Bambamboole\MyCms\Models\Menu;
@@ -21,6 +22,7 @@ class MyCms
     protected array $defaultBlocks = [
         TextBlock::class,
         MarkdownBlock::class,
+        ImageBlock::class,
     ];
 
     public function __construct(protected BlockRegistry $blockRegistry, protected ThemeInterface $theme)

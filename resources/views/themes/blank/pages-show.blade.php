@@ -12,7 +12,7 @@
 
 @section('content')
     @foreach($page->blocks ?? [] as $block)
-        {!! $renderer->render($block)  !!}
+        {!! $renderer->render($block, $page)  !!}
     @endforeach
     {!! $page->contentAsHtml() !!}
 @endsection

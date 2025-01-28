@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms\Blocks;
 
+use Bambamboole\MyCms\Models\BasePostType;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
@@ -21,26 +22,10 @@ class TextBlock extends BaseBlock
     {
         return [
             TextInput::make('text'),
-            SpatieMediaLibraryFileUpload::make('image')
-                // uses the hidden image field path OR the current path
-                ->collection(function (FileUpload $component, Get $get) {
-                    return $get('image_collection_id') ?? $component->getContainer()->getStatePath();
-                })
-                ->afterStateHydrated(null)
-                ->mutateDehydratedStateUsing(null)
-                ->responsiveImages()
-                ->imageEditor()
-                // sets the hidden image field to the state path OR the previous path
-                ->afterStateUpdated(function (FileUpload $component, Set $set) {
-                    $set('image_collection_id', $component->getContainer()->getStatePath());
-                })
-                ->live(),
-            // we can now call $yourModel->getMedia($value_in_image_collection_id)->first()
-            Hidden::make('image_collection_id'),
         ];
     }
 
-    public function render(array $data): View
+    public function render(array $data, BasePostType $post): View
     {
         return \view('mycms::blocks.text-block', $data);
     }

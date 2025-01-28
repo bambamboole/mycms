@@ -2,6 +2,7 @@
 
 namespace Bambamboole\MyCms\Blocks;
 
+use Bambamboole\MyCms\Models\BasePostType;
 use Bambamboole\MyCms\Torchlight\TorchlightExtension;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Contracts\View\View;
@@ -23,7 +24,7 @@ class MarkdownBlock extends BaseBlock
         ];
     }
 
-    public function render(array $data): View
+    public function render(array $data, BasePostType $post): View
     {
         $extensions = [new BladeExtension, new AttributesExtension];
         if (config('torchlight.token') !== null) {
