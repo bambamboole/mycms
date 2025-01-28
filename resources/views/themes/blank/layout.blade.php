@@ -16,7 +16,7 @@
 <header>
     <ul>
         @foreach(\Bambamboole\MyCms\Facades\MyCms::getMenuItems('header') as $item)
-            <li><a href="{{$item->url}}">>{{$item->title}}</a></li>
+            <li><a href="{{$item->url}}" class="hover:underline">>{{$item->title}}</a></li>
         @endforeach
     </ul>
 </header>
@@ -26,7 +26,7 @@
 <footer>
     <ul>
         @foreach(\Bambamboole\MyCms\Facades\MyCms::getMenuItems('footer') as $item)
-            <li><a href="{{$item->url}}">>{{$item->title}}</a></li>
+            <li><a href="{{$item->url}}" class="hover:underline">>{{$item->title}}</a></li>
         @endforeach
     </ul>
 </footer>
