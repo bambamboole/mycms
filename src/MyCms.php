@@ -7,7 +7,6 @@ namespace Bambamboole\MyCms;
 use Bambamboole\MyCms\Blocks\BlockRegistry;
 use Bambamboole\MyCms\Blocks\ImageBlock;
 use Bambamboole\MyCms\Blocks\MarkdownBlock;
-use Bambamboole\MyCms\Blocks\TextBlock;
 use Bambamboole\MyCms\Models\Menu;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
@@ -20,7 +19,6 @@ class MyCms
     protected array $settings = [GeneralSettings::class];
 
     protected array $defaultBlocks = [
-        TextBlock::class,
         MarkdownBlock::class,
         ImageBlock::class,
     ];
