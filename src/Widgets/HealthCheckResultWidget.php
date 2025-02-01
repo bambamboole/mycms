@@ -9,7 +9,7 @@ class HealthCheckResultWidget extends Widget
 {
     public array $result = [];
 
-    protected static string $view = 'mycms::filament.widgets.health-check-result-widget';
+    protected static string $view = 'mycms::widgets.health-check-result-widget';
 
     public function getIcon(): string
     {
