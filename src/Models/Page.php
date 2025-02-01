@@ -4,26 +4,12 @@ namespace Bambamboole\MyCms\Models;
 
 use Bambamboole\MyCms\Database\Factories\PageFactory;
 use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\MenuPanelable;
-use Bambamboole\MyCms\Torchlight\TorchlightExtension;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use League\CommonMark\Extension\Attributes\AttributesExtension;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 
 class Page extends BasePostType implements MenuPanelable
 {
     protected static string $factory = PageFactory::class;
-
-    public function contentAsHtml(): string
-    {
-        $extensions = [new BladeExtension, new AttributesExtension];
-        if (config('torchlight.token') !== null) {
-            $extensions[] = new TorchlightExtension;
-        }
-
-        return Str::markdown($this->content, extensions: $extensions);
-    }
 
     public function getMenuPanelTitleColumn(): string
     {

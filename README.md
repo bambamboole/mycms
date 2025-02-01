@@ -42,21 +42,20 @@ We use orchestra/testbench for a proper development experience. To get started y
 it. Next you can set up the development environment by executin the following commands:
 ```bash
 composer install
-vendor/bin/testbench workbench:build
-vendor/bin/testbench serve
+composer prepare
+composer serve
 ```
 
 ## Testing
 
-### Dusk setup
-
-We use Laravel Dusk for browser tests. The setup is using a MySQL database since it needs to be persisted between
-processes which is not possible with in memory sqlite. It currently expects a `mycms_test` database and a `root` user
-with the password `password`.
-
 ```bash
 composer test
 ```
+
+### Dusk setup
+
+I had problems with the Laravel Dusk setup and migrations so I decided to drop them for now.
+Looking for support getting a reliable Dusk setup running
 
 ## Changelog
 

@@ -3,12 +3,8 @@
 namespace Bambamboole\MyCms\Models;
 
 use Bambamboole\MyCms\Database\Factories\PostFactory;
-use Bambamboole\MyCms\Torchlight\TorchlightExtension;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use League\CommonMark\Extension\Attributes\AttributesExtension;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
-use RyanChandler\CommonmarkBladeBlock\BladeExtension;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Tags\HasTags;
@@ -24,24 +20,9 @@ class Post extends BasePostType implements Feedable
 
     protected array $versionable = ['title', 'slug', 'excerpt', 'content', 'blocks', 'published_at'];
 
-    public function readingTime(): float
-    {
-        return ceil(str_word_count($this->content) / 250);
-    }
-
     public function path(): string
     {
         return "/blog/{$this->slug}";
-    }
-
-    public function contentAsHtml(): string
-    {
-        $extensions = [new BladeExtension, new AttributesExtension];
-        if (config('torchlight.token') !== null) {
-            $extensions[] = new TorchlightExtension;
-        }
-
-        return Str::markdown($this->content, extensions: $extensions);
     }
 
     public function toFeedItem(): FeedItem

@@ -16,7 +16,7 @@ class PostsController
             ->orderBy('published_at')
             ->paginate(5);
 
-        return MyCms::theme()->getPostIndexView($posts);
+        return MyCms::theme()->renderIndex($posts);
     }
 
     public function show($slug)
@@ -28,6 +28,6 @@ class PostsController
             ->firstOrFail();
         Context::add('current_post', $post);
 
-        return MyCms::theme()->getPostView($post);
+        return MyCms::theme()->render($post);
     }
 }

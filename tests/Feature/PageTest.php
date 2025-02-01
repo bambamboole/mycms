@@ -7,6 +7,7 @@ it('shows pages via their slug', function () {
     $title = 'test-title-to-compare';
 
     Page::factory()
+        ->published()
         ->create([
             'title' => $title,
             'slug' => 'test',

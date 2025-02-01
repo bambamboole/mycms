@@ -1,19 +1,19 @@
-@extends('mycms::themes.blank.layout')
+@extends('mycms::themes.blank.wrapper')
 @php
     /**
-    * @var \Illuminate\Contracts\Pagination\LengthAwarePaginator $posts
+    * @var \Illuminate\Contracts\Pagination\LengthAwarePaginator $collection
     */
 @endphp
 
 @section('content')
 
     <ul>
-        @foreach($posts as $post)
+        @foreach($collection as $post)
             <li>
                 <a href="{{$post->path()}}">{!! $post->title !!}</a>
             </li>
         @endforeach
     </ul>
-    {{$posts->links()}}
+    {{$collection->links()}}
 
 @endsection

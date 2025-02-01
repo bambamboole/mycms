@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 /** @extends Factory<Post> */
 class PostFactory extends Factory
 {
+    use GeneratesBlocks;
+
     protected $model = Post::class;
 
     /** @return array<string, mixed> */
@@ -22,7 +24,7 @@ class PostFactory extends Factory
             'title' => $title,
             'slug' => Str::slug($title),
             'excerpt' => fake()->sentence, // secret
-            'content' => fake()->paragraphs(rand(3, 10), true),
+            'blocks' => $this->makeBlocks(rand(1, 3)),
         ];
     }
 

@@ -11,6 +11,7 @@ use Bambamboole\MyCms\Models\Menu;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 
 class MyCms
 {
@@ -73,6 +74,13 @@ class MyCms
     public function registerSettings(string $settingClass): self
     {
         $this->settings[] = $settingClass;
+
+        return $this;
+    }
+
+    public function registerLayout(string $className): self
+    {
+        Blade::component($className::getId(), $className);
 
         return $this;
     }
