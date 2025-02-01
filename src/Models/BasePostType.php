@@ -24,6 +24,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property string $slug
  * @property string $content
  * @property Collection $blocks
+ * @property ?string $layout
  * @property ?Carbon $published_at
  * @property Carbon $updated_at
  * @property Carbon $created_at

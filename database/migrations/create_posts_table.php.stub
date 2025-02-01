@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('excerpt')->nullable();
             $table->longText('content')->nullable();
             $table->json('blocks')->nullable();
+            $table->string('layout')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

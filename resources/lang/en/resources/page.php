@@ -25,6 +25,10 @@ return [
             'label' => 'Published at',
             'helper-text' => 'The date when the page will be published.',
         ],
+        'layout' => [
+            'label' => 'Layout',
+            'helper-text' => 'Choose the lout for the page',
+        ],
         'description' => [
             'label' => 'SEO description',
             'helper-text' => 'This value will be used for SEO purposes like meta description and OpenGraph tags.',

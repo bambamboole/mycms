@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->longText('content')->nullable();
             $table->json('blocks')->nullable();
+            $table->string('layout')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

@@ -25,6 +25,10 @@ return [
             'label' => 'Published at',
             'helper-text' => 'The date when the post will be published.',
         ],
+        'layout' => [
+            'label' => 'Layout',
+            'helper-text' => 'Choose the lout for the post',
+        ],
         'excerpt' => [
             'label' => 'Excerpt',
             'helper-text' => 'A kicker of your blog post. It will be used on index pages and in Meta tags',

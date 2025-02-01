@@ -3,6 +3,7 @@
 namespace Bambamboole\MyCms\Filament\Resources;
 
 use Bambamboole\MyCms\Blocks\BlockBuilder;
+use Bambamboole\MyCms\Facades\MyCms;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Pages;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Widgets\HomePageWidget;
 use Bambamboole\MyCms\Models\Page;
@@ -154,6 +155,10 @@ class PageResource extends Resource
                             ->translateLabel()
                             ->helperText(__('mycms::resources/page.fields.published_at.helper-text'))
                             ->seconds(false),
+                        Forms\Components\Select::make('layout')
+                            ->label(__('mycms::resources/page.fields.layout.label'))
+                            ->helperText(__('mycms::resources/page.fields.layout.helper-text'))
+                            ->options(array_keys(MyCms::getLayouts())),
 
                         Group::make([
                             Textarea::make('description')

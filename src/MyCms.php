@@ -24,6 +24,8 @@ class MyCms
         ImageBlock::class,
     ];
 
+    protected array $layouts = [];
+
     public function __construct(protected BlockRegistry $blockRegistry, protected ThemeInterface $theme)
     {
         foreach ($this->defaultBlocks as $block) {
@@ -81,7 +83,13 @@ class MyCms
     public function registerLayout(string $className): self
     {
         Blade::component($className::getId(), $className);
+        $this->layouts[$className::getId()] = $className;
 
         return $this;
+    }
+
+    public function getLayouts(): array
+    {
+        return $this->layouts;
     }
 }
