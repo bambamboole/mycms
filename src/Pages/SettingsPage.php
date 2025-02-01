@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Bambamboole\MyCms\Filament\Pages;
+namespace Bambamboole\MyCms\Pages;
 
 use Bambamboole\MyCms\Facades\MyCms;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
@@ -13,7 +13,7 @@ class SettingsPage extends Page
 {
     use HasPageShield;
 
-    protected static string $view = 'mycms::filament.pages.settings-page';
+    protected static string $view = 'mycms::pages.settings-page';
 
     public ?array $data = [];
 

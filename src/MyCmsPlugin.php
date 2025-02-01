@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms;
 
-use Bambamboole\MyCms\Filament\Pages\SettingsPage;
-use Bambamboole\MyCms\Filament\Pages\SiteHealthPage;
+use Bambamboole\MyCms\Pages\SettingsPage;
+use Bambamboole\MyCms\Pages\SiteHealthPage;
 use Bambamboole\MyCms\Filament\Resources\MenuResource;
 use Bambamboole\MyCms\Filament\Resources\PageResource;
 use Bambamboole\MyCms\Filament\Resources\PostResource;

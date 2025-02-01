@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Bambamboole\MyCms\Filament\Pages;
+namespace Bambamboole\MyCms\Pages;
 
 use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
@@ -18,7 +18,7 @@ class SiteHealthPage extends Page
 {
     use HasPageShield;
 
-    protected static string $view = 'mycms::filament.pages.site-health';
+    protected static string $view = 'mycms::pages.site-health';
 
     protected $listeners = ['refresh-component' => '$refresh'];
 
