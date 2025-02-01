@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms\Resources\MenuResource\Livewire;
 
-use Bambamboole\MyCms\Resources\MenuResource\LinkTarget;
 use Bambamboole\MyCms\Models\Menu;
+use Bambamboole\MyCms\Resources\MenuResource\LinkTarget;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;

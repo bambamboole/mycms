@@ -4,9 +4,9 @@ namespace Bambamboole\MyCms\Resources;
 
 use Bambamboole\MyCms\Blocks\BlockBuilder;
 use Bambamboole\MyCms\Facades\MyCms;
+use Bambamboole\MyCms\Models\Page;
 use Bambamboole\MyCms\Resources\PageResource\Pages;
 use Bambamboole\MyCms\Resources\PageResource\Widgets\HomePageWidget;
-use Bambamboole\MyCms\Models\Page;
 use Filament\Forms;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Hidden;

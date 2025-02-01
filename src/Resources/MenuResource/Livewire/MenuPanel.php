@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms\Resources\MenuResource\Livewire;
 
-use Bambamboole\MyCms\Resources\MenuResource\MenuPanel\MenuPanel as MenuPanelInterface;
 use Bambamboole\MyCms\Models\Menu;
+use Bambamboole\MyCms\Resources\MenuResource\MenuPanel\MenuPanel as MenuPanelInterface;
 use Filament\Forms\Components;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;

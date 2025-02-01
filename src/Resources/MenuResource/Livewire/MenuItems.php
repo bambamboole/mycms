@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms\Resources\MenuResource\Livewire;
 
-use Bambamboole\MyCms\Resources\MenuResource\LinkTarget;
 use Bambamboole\MyCms\Models\Menu;
 use Bambamboole\MyCms\Models\MenuItem;
+use Bambamboole\MyCms\Resources\MenuResource\LinkTarget;
 use Filament\Actions\Action;
 use Filament\Actions\Concerns\InteractsWithActions;
 use Filament\Actions\Contracts\HasActions;
