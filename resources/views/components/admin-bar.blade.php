@@ -5,78 +5,10 @@
     $panel = \Filament\Facades\Filament::getDefaultPanel();
 @endphp
 @if($currentUser instanceof \Filament\Models\Contracts\FilamentUser && $currentUser->canAccessPanel($panel))
+    <link href="{{asset('css/mycms/admin-bar.css')}}" rel="stylesheet">
     <style>
         body {
             padding-top: 34px;
-        }
-
-        .admin-bar {
-            background-color: #333;
-            color: #fff;
-            padding: 0 5px;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: row;
-        }
-
-        .admin-bar a {
-            color: #fff;
-            text-decoration: none;
-            padding: 5px 15px 5px 5px;
-            border-right: 2px solid #3f3f3f;
-            margin-right: 5px;
-        }
-
-        .admin-bar a:hover {
-            text-decoration: underline;
-        }
-
-        .admin-bar .logo {
-            display: inline-block;
-            font-weight: 600;
-            padding: 5px 10px;
-            border-right: 2px solid #3f3f3f;
-            margin-right: 5px;
-        }
-
-        .admin-bar .icon {
-            height: 1rem;
-            width: 1rem;
-            display: inline-block;
-            margin-right: 5px;
-        }
-
-        .admin-bar-hide-button {
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-right: 10px;
-            margin-left: auto;
-        }
-
-        .admin-bar-show-button {
-            background: none;
-            border: none;
-            color: #000;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-right: 10px;
-            position: fixed;
-            right: 5px;
-            top: 5px;
-
-            .icon {
-                height: 1rem;
-                width: 1rem;
-                display: inline-block;
-                margin-right: 5px;
-            }
         }
     </style>
 
@@ -89,27 +21,46 @@
                 adminBar.style.display = 'none';
             }
 
-            document.querySelector('.admin-bar-hide-button').addEventListener('click', function () {
+            document.getElementById('admin-bar-hide-btn').addEventListener('click', function () {
                 adminBar.style.display = 'none';
                 localStorage.setItem('adminBarHidden', 'true');
             });
-            document.querySelector('.admin-bar-show-button').addEventListener('click', function () {
+            document.getElementById('admin-bar-show-btn').addEventListener('click', function () {
                 adminBar.style.display = 'flex';
                 localStorage.setItem('adminBarHidden', 'false');
             });
         });
     </script>
 
-    <div class="admin-bar" id="adminBar">
-        <span class="logo">{{config('app.name')}}</span>
-            <a href="{{$panel->getUrl()}}">@svg('heroicon-o-wrench-screwdriver', 'icon'){{ __('mycms::general.back-to-dashboard') }}</a>
+    <div class="flex flex-row admin-bar z-10 font-sans text-white bg-gray-800 pr-4 fixed right-0 top-0 left-0 shadow-lg"
+         id="adminBar">
+        <div class="font-bold py-1 px-2 mr-2">{{config('app.name')}}</div>
+        <a class="flex items-center space-x-2 pr-2 mr-2 text-white no-underline hover:underline"
+           href="{{$panel->getUrl()}}">
+            @svg('heroicon-o-wrench-screwdriver', 'h-4 w-4')
+            <span>{{ __('mycms::general.back-to-dashboard') }}</span>
+        </a>
+
         @if($currentPage && $currentUser->can('update_page', $currentPage))
-            <a href="{{$panel->getResourceUrl($currentPage, 'edit')}}">@svg('heroicon-o-paint-brush', 'icon'){{ __('mycms::general.edit-page') }}</a>
+            <a class="flex items-center space-x-2 text-white no-underline hover:underline"
+               href="{{$panel->getResourceUrl($currentPage, 'edit')}}">
+                @svg('heroicon-o-paint-brush', 'h-4 w-4')
+                <span>{{ __('mycms::general.edit-page') }}</span>
+            </a>
         @endif
         @if($currentPost && $currentUser->can('update_post', $currentPost))
-            <a href="{{$panel->getResourceUrl($currentPost, 'edit')}}">@svg('heroicon-o-paint-brush', 'icon'){{ __('mycms::general.edit-post') }}</a>
+            <a class="flex items-center space-x-2 text-white no-underline hover:underline"
+               href="{{$panel->getResourceUrl($currentPost, 'edit')}}">
+                @svg('heroicon-o-paint-brush', 'h-4 w-4')
+                <span>{{ __('mycms::general.edit-post') }}</span>
+            </a>
         @endif
-        <button class="admin-bar-hide-button">@svg('heroicon-o-arrow-up', 'icon')</button>
+        <button id="admin-bar-hide-btn" class="ml-auto cursor-pointer border-0 bg-transparent text-white">
+            @svg('heroicon-o-arrow-up', 'h-4 w-4')
+        </button>
     </div>
-    <button class="admin-bar-show-button">@svg('heroicon-o-arrow-down', 'icon')</button>
+    <button id="admin-bar-show-btn"
+            class="fixed top-0 right-0 cursor-pointer border-0 bg-transparent text-black mr-4 mt-1">
+        @svg('heroicon-o-arrow-down', 'h-4 w-4')
+    </button>
 @endif

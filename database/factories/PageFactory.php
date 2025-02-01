@@ -4,11 +4,14 @@ namespace Bambamboole\MyCms\Database\Factories;
 
 use Bambamboole\MyCms\Models\Page;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 /** @extends Factory<Page> */
 class PageFactory extends Factory
 {
+    use GeneratesBlocks;
+
     protected $model = Page::class;
 
     /** @return array<string, mixed> */
@@ -20,7 +23,14 @@ class PageFactory extends Factory
             'author_id' => config('mycms.models.user')::factory(),
             'title' => $title,
             'slug' => Str::slug($title),
-            'content' => fake()->paragraphs(rand(3, 10), true),
+            'blocks' => $this->makeBlocks(rand(1, 3)),
         ];
+    }
+
+    public function published(?Carbon $publishedAt = null): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'published_at' => $publishedAt ?? now()->subDays(rand(0, 365)),
+        ]);
     }
 }

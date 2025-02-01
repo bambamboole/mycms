@@ -2,11 +2,13 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/index.css --postcss --watch",
+        "dev:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/css/index.css --postcss --watch",
+        "dev:styles:admin-bar": "npx tailwindcss -i resources/css/admin-bar.css -o resources/dist/css/admin-bar.css --postcss --watch",
         "dev:scripts": "node bin/build.js --dev",
-        "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/index.css --postcss --minify && npm run purge",
+        "build:styles": "npx tailwindcss -i resources/css/index.css -o resources/dist/css/index.css --postcss --minify && npm run purge",
+        "build:styles:admin-bar": "npx tailwindcss -i resources/css/admin-bar.css -o resources/dist/css/admin-bar.css --postcss --minify && npm run purge",
         "build:scripts": "node bin/build.js",
-        "purge": "filament-purge -i resources/dist/index.css -o resources/dist/index.css -v 3.x",
+        "purge": "filament-purge -i resources/dist/css/index.css -o resources/dist/css/index.css -v 3.x",
         "dev": "npm-run-all --parallel dev:*",
         "build": "npm-run-all build:*"
     },

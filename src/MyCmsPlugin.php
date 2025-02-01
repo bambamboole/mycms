@@ -20,6 +20,7 @@ use Filament\Panel;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Support\Facades\Blade;
+use Pboivin\FilamentPeek\FilamentPeekPlugin;
 
 class MyCmsPlugin implements Plugin
 {
@@ -48,16 +49,10 @@ class MyCmsPlugin implements Plugin
             SiteHealthPage::class,
         ]);
         $panel->widgets([PostResource\Widgets\LatestPostWidget::class]);
-        //        $menuPlugin = FilamentMenuBuilderPlugin::make()
-        //            ->addMenuPanel(ModelMenuPanel::make()->model(Page::class))
-        //            ->navigationGroup('Admin');
-        //        foreach (\Bambamboole\MyCms\Facades\MyCms::getMenuLocations() as $key => $label) {
-        //            $menuPlugin->addLocation($key, $label);
-        //        }
-        //        $panel->plugin($menuPlugin);
 
         $panel->profile(EditProfile::class, false);
         $panel->plugin(FilamentShieldPlugin::make());
+        $panel->plugin(FilamentPeekPlugin::make());
         $panel->renderHook(
             PanelsRenderHook::TOPBAR_START,
             fn () => Blade::render(sprintf('<x-filament::link href="/">%s</x-filament::link>', __('mycms::general.go-to-site-link'))),
@@ -80,6 +75,8 @@ class MyCmsPlugin implements Plugin
         if (method_exists($this->theme, 'configurePanel')) {
             $this->theme->configurePanel($panel);
         }
+
+        $panel->sidebarFullyCollapsibleOnDesktop()->sidebarWidth('14rem');
     }
 
     public function boot(Panel $panel): void

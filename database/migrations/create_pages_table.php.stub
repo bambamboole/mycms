@@ -13,7 +13,9 @@ return new class extends Migration
             $table->foreignId('author_id');
             $table->string('title');
             $table->string('slug')->unique();
-            $table->longText('content');
+            $table->longText('content')->nullable();
+            $table->json('blocks')->nullable();
+            $table->string('layout')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
         });

@@ -2,33 +2,18 @@ name: run-tests
 
 on:
   push:
-    paths:
-      - '**.php'
-      - '.github/workflows/run-tests.yml'
-      - 'phpunit.xml.dist'
-      - 'composer.json'
-      - 'composer.lock'
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: mycms_test
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         os: [ ubuntu-latest ]
         php: [ 8.4, 8.3 ]
         laravel: [ 11.* ]
-        stability: [ prefer-lowest, prefer-stable ]
+        stability: [ prefer-stable ]
         include:
           - laravel: 11.*
             testbench: 9.*
@@ -58,8 +43,5 @@ jobs:
           composer update --${{ matrix.stability }} --prefer-dist --no-interaction
           composer prepare
 
-      - name: List Installed Dependencies
-        run: composer show -D
-
       - name: Execute tests
-        run: vendor/bin/pest --ci --exclude-testsuit Browser
+        run: vendor/bin/pest --ci

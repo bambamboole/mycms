@@ -28,6 +28,7 @@
         "league/commonmark": "^2.6",
         "league/flysystem-aws-s3-v3": "^3.29",
         "mansoor/filament-versionable": "^0.0.12",
+        "pboivin/filament-peek": "^2.2",
         "ralphjsmit/laravel-seo": "^1.6",
         "ryangjchandler/commonmark-blade-block": "^1.0",
         "spatie/laravel-feed": "^4.4",
@@ -72,7 +73,11 @@
             "@dusk:install-chromedriver",
             "@composer run prepare"
         ],
-        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "prepare": [
+            "@php vendor/bin/testbench package:discover --ansi",
+            "@php vendor/bin/testbench filament:assets",
+            "@php vendor/bin/testbench mycms:publish"
+        ],
         "analyse": "vendor/bin/phpstan analyse",
         "test": "vendor/bin/pest",
         "test-coverage": "vendor/bin/pest --coverage",

@@ -2,6 +2,8 @@
 
 namespace Bambamboole\MyCms\Filament\Resources;
 
+use Bambamboole\MyCms\Blocks\BlockBuilder;
+use Bambamboole\MyCms\Facades\MyCms;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Pages;
 use Bambamboole\MyCms\Filament\Resources\PageResource\Widgets\HomePageWidget;
 use Bambamboole\MyCms\Models\Page;
@@ -27,73 +29,10 @@ class PageResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Tabs::make()->columnSpan('full')
+                Forms\Components\Tabs::make()
+                    ->columnSpan('full')
                     ->tabs([
-                        Tab::make('Content')->schema([
-                            Forms\Components\Section::make()->columnSpan(2)->schema([
-                                TextInput::make('title')
-                                    ->label('mycms::resources/page.fields.title.label')
-                                    ->translateLabel()
-                                    ->helperText(__('mycms::resources/page.fields.title.helper-text'))
-                                    ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
-                                        if (!$get('is_slug_changed_manually') && filled($state)) {
-                                            $set('slug', Str::slug($state));
-                                        }
-                                    })
-                                    ->live(debounce: 300)
-                                    ->required(),
-                                Forms\Components\MarkdownEditor::make('content')
-                                    ->label('mycms::resources/page.fields.content.label')
-                                    ->translateLabel()
-                                    ->helperText(__('mycms::resources/page.fields.content.helper-text'))
-                                    ->required()
-                                    ->fileAttachmentsDisk(config('media-library.disk_name')),
-                            ]),
-                            Forms\Components\Section::make()->columnStart(3)->columnSpan(2)->schema([
-                                TextInput::make('slug')
-                                    ->label('mycms::resources/page.fields.slug.label')
-                                    ->translateLabel()
-                                    ->helperText(__('mycms::resources/page.fields.slug.helper-text'))
-                                    ->afterStateUpdated(function (Forms\Set $set) {
-                                        $set('is_slug_changed_manually', true);
-                                    })
-                                    ->required(),
-                                Hidden::make('is_slug_changed_manually')
-                                    ->default(false)
-                                    ->dehydrated(false),
-                                Forms\Components\DateTimePicker::make('published_at')
-                                    ->label('mycms::resources/page.fields.published_at.label')
-                                    ->translateLabel()
-                                    ->helperText(__('mycms::resources/page.fields.published_at.helper-text'))
-                                    ->seconds(false),
-                            ]),
-                        ]),
-                        Tab::make('SEO')->schema([
-                            Group::make([
-                                Textarea::make('description')
-                                    ->label('mycms::resources/page.fields.description.label')
-                                    ->translateLabel()
-                                    ->helperText(__('mycms::resources/page.fields.description.helper-text'))
-                                    ->columnSpan(2),
-                                // here we can add further SEO fields
-                            ])
-                                ->afterStateHydrated(function (Group $component, ?Page $record): void {
-                                    $component->getChildComponentContainer()->fill(
-                                        $record?->seo?->only('description') ?: []
-                                    );
-                                })
-                                ->statePath('seo')
-                                ->dehydrated(false)
-                                ->saveRelationshipsUsing(function (Page $record, array $state): void {
-                                    $state = collect($state)->only(['description'])->map(fn ($value) => $value ?: null)->all();
-
-                                    if ($record->seo->exists) {
-                                        $record->seo->update($state);
-                                    } else {
-                                        $record->seo()->create($state);
-                                    }
-                                }),
-                        ]),
+                        self::getContentTab(),
                     ]),
 
             ]);
@@ -169,5 +108,83 @@ class PageResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('mycms::resources/page.navigation-label');
+    }
+
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
+    }
+
+    public static function getContentTab(): Tab
+    {
+        return Tab::make('Content')
+            ->columns(4)
+            ->schema([
+                Forms\Components\Section::make()
+                    ->columnSpan(3)
+                    ->schema([
+                        TextInput::make('title')
+                            ->label('mycms::resources/page.fields.title.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/page.fields.title.helper-text'))
+                            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
+                                if (!$get('is_slug_changed_manually') && filled($state)) {
+                                    $set('slug', Str::slug($state));
+                                }
+                            })
+                            ->live(debounce: 300)
+                            ->required(),
+                        BlockBuilder::make('blocks'),
+                    ]),
+                Forms\Components\Section::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        TextInput::make('slug')
+                            ->label('mycms::resources/page.fields.slug.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/page.fields.slug.helper-text'))
+                            ->afterStateUpdated(function (Forms\Set $set) {
+                                $set('is_slug_changed_manually', true);
+                            })
+                            ->required(),
+                        Hidden::make('is_slug_changed_manually')
+                            ->default(false)
+                            ->dehydrated(false),
+                        Forms\Components\DateTimePicker::make('published_at')
+                            ->label('mycms::resources/page.fields.published_at.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/page.fields.published_at.helper-text'))
+                            ->seconds(false),
+                        Forms\Components\Select::make('layout')
+                            ->label(__('mycms::resources/page.fields.layout.label'))
+                            ->helperText(__('mycms::resources/page.fields.layout.helper-text'))
+                            ->options(array_keys(MyCms::getLayouts())),
+
+                        Group::make([
+                            Textarea::make('description')
+                                ->label('mycms::resources/page.fields.description.label')
+                                ->translateLabel()
+                                ->helperText(__('mycms::resources/page.fields.description.helper-text'))
+                                ->columnSpan(2),
+                            // here we can add further SEO fields
+                        ])
+                            ->afterStateHydrated(function (Group $component, ?Page $record): void {
+                                $component->getChildComponentContainer()->fill(
+                                    $record?->seo?->only('description') ?: []
+                                );
+                            })
+                            ->statePath('seo')
+                            ->dehydrated(false)
+                            ->saveRelationshipsUsing(function (Page $record, array $state): void {
+                                $state = collect($state)->only(['description'])->map(fn ($value) => $value ?: null)->all();
+
+                                if ($record->seo->exists) {
+                                    $record->seo->update($state);
+                                } else {
+                                    $record->seo()->create($state);
+                                }
+                            }),
+                    ]),
+            ]);
     }
 }

@@ -55,5 +55,5 @@ const defaultOptions = {
 compile({
     ...defaultOptions,
     entryPoints: ['./resources/js/menu.js'],
-    outfile: './resources/dist/menu.js',
+    outfile: './resources/dist/js/menu.js',
 })

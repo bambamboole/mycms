@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace Bambamboole\MyCms;
 
+use Bambamboole\MyCms\Blocks\BlockRegistry;
+use Bambamboole\MyCms\Blocks\ImageBlock;
+use Bambamboole\MyCms\Blocks\MarkdownBlock;
 use Bambamboole\MyCms\Models\Menu;
 use Bambamboole\MyCms\Settings\GeneralSettings;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 
 class MyCms
 {
@@ -15,8 +19,18 @@ class MyCms
 
     protected array $settings = [GeneralSettings::class];
 
-    public function __construct(protected ThemeInterface $theme)
+    protected array $defaultBlocks = [
+        MarkdownBlock::class,
+        ImageBlock::class,
+    ];
+
+    protected array $layouts = [];
+
+    public function __construct(protected BlockRegistry $blockRegistry, protected ThemeInterface $theme)
     {
+        foreach ($this->defaultBlocks as $block) {
+            $this->blockRegistry->register(app($block));
+        }
         $this->theme->configure($this);
     }
 
@@ -35,6 +49,11 @@ class MyCms
         $menu = Menu::location($location);
 
         return $menu ? $menu->menuItems : collect();
+    }
+
+    public function blocks(): BlockRegistry
+    {
+        return $this->blockRegistry;
     }
 
     public function theme(): ThemeInterface
@@ -59,5 +78,18 @@ class MyCms
         $this->settings[] = $settingClass;
 
         return $this;
+    }
+
+    public function registerLayout(string $className): self
+    {
+        Blade::component($className::getId(), $className);
+        $this->layouts[$className::getId()] = $className;
+
+        return $this;
+    }
+
+    public function getLayouts(): array
+    {
+        return $this->layouts;
     }
 }

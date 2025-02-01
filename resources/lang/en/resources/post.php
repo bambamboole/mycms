@@ -17,9 +17,17 @@ return [
             'label' => 'Content',
             'helper-text' => 'The content in Markdown format.',
         ],
+        'blocks' => [
+            'label' => 'Blocks',
+            'helper-text' => 'use blocks to customise your content.',
+        ],
         'published_at' => [
             'label' => 'Published at',
             'helper-text' => 'The date when the post will be published.',
+        ],
+        'layout' => [
+            'label' => 'Layout',
+            'helper-text' => 'Choose the lout for the post',
         ],
         'excerpt' => [
             'label' => 'Excerpt',

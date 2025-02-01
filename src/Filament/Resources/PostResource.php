@@ -2,12 +2,15 @@
 
 namespace Bambamboole\MyCms\Filament\Resources;
 
+use Bambamboole\MyCms\Blocks\BlockBuilder;
+use Bambamboole\MyCms\Facades\MyCms;
 use Bambamboole\MyCms\Filament\Resources\PostResource\Pages;
 use Bambamboole\MyCms\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\SpatieTagsInput;
+use Filament\Forms\Components\Tabs\Tab;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -25,59 +28,75 @@ class PostResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Section::make()->columnSpan(2)->schema([
-                    TextInput::make('title')
-                        ->label('mycms::resources/post.fields.title.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.title.helper-text'))
-                        ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
-                            if (!$get('is_slug_changed_manually') && filled($state)) {
-                                $set('slug', Str::slug($state));
-                            }
-                        })
-                        ->live(debounce: 300)
-                        ->required(),
-                    Forms\Components\Textarea::make('excerpt')
-                        ->label('mycms::resources/post.fields.excerpt.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.excerpt.helper-text'))
-                        ->rows(3)
-                        ->required(),
-                    Forms\Components\MarkdownEditor::make('content')
-                        ->label('mycms::resources/post.fields.content.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.content.helper-text'))
-                        ->required()
-                        ->fileAttachmentsDisk(config('media-library.disk_name')),
-                ]),
-                Forms\Components\Section::make()->columnStart(3)->columnSpan(1)->schema([
-                    TextInput::make('slug')
-                        ->label('mycms::resources/post.fields.slug.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.slug.helper-text'))
-                        ->afterStateUpdated(function (Forms\Set $set) {
-                            $set('is_slug_changed_manually', true);
-                        })
-                        ->required(),
-                    Hidden::make('is_slug_changed_manually')
-                        ->default(false)
-                        ->dehydrated(false),
-                    SpatieMediaLibraryFileUpload::make('Image')
-                        ->label('mycms::resources/post.fields.image.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.image.helper-text'))
-                        ->collection('featured_image')
-                        ->imageEditor(),
-                    SpatieTagsInput::make('tags')
-                        ->label('mycms::resources/post.fields.tags.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.tags.helper-text')),
-                    Forms\Components\DateTimePicker::make('published_at')
-                        ->label('mycms::resources/post.fields.published_at.label')
-                        ->translateLabel()
-                        ->helperText(__('mycms::resources/post.fields.published_at.helper-text'))
-                        ->seconds(false),
-                ]),
+                Forms\Components\Tabs::make()
+                    ->columnSpan('full')
+                    ->tabs([
+                        self::getContentTab(),
+                    ]),
+
+            ]);
+    }
+
+    public static function getContentTab(): Tab
+    {
+        return Tab::make('Content')
+            ->columns(4)
+            ->schema([
+                Forms\Components\Section::make()
+                    ->columnSpan(3)
+                    ->schema([
+                        TextInput::make('title')
+                            ->label('mycms::resources/post.fields.title.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/post.fields.title.helper-text'))
+                            ->afterStateUpdated(function (Forms\Get $get, Forms\Set $set, ?string $state) {
+                                if (!$get('is_slug_changed_manually') && filled($state)) {
+                                    $set('slug', Str::slug($state));
+                                }
+                            })
+                            ->live(debounce: 300)
+                            ->required(),
+                        Forms\Components\Textarea::make('excerpt')
+                            ->label('mycms::resources/post.fields.excerpt.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/post.fields.excerpt.helper-text'))
+                            ->rows(3),
+                        BlockBuilder::make('blocks'),
+                    ]),
+                Forms\Components\Section::make()
+                    ->columnSpan(1)
+                    ->schema([
+                        TextInput::make('slug')
+                            ->label('mycms::resources/post.fields.slug.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/post.fields.slug.helper-text'))
+                            ->afterStateUpdated(function (Forms\Set $set) {
+                                $set('is_slug_changed_manually', true);
+                            })
+                            ->required(),
+                        Hidden::make('is_slug_changed_manually')
+                            ->default(false)
+                            ->dehydrated(false),
+                        SpatieMediaLibraryFileUpload::make('Image')
+                            ->label('mycms::resources/post.fields.image.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/post.fields.image.helper-text'))
+                            ->collection('featured_image')
+                            ->imageEditor(),
+                        SpatieTagsInput::make('tags')
+                            ->label('mycms::resources/post.fields.tags.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/post.fields.tags.helper-text')),
+                        Forms\Components\DateTimePicker::make('published_at')
+                            ->label('mycms::resources/post.fields.published_at.label')
+                            ->translateLabel()
+                            ->helperText(__('mycms::resources/post.fields.published_at.helper-text'))
+                            ->seconds(false),
+                        Forms\Components\Select::make('layout')
+                            ->label(__('mycms::resources/page.fields.layout.label'))
+                            ->helperText(__('mycms::resources/page.fields.layout.helper-text'))
+                            ->options(array_keys(MyCms::getLayouts())),
+                    ]),
             ]);
     }
 
@@ -140,5 +159,10 @@ class PostResource extends Resource
     public static function getNavigationLabel(): string
     {
         return __('mycms::resources/post.navigation-label');
+    }
+
+    public static function getLabel(): string
+    {
+        return self::getNavigationLabel();
     }
 }

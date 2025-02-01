@@ -36,17 +36,26 @@ $panel->plugin(MyCmsPlugin::make());
 //...
 ```
 
+## Development
+
+We use orchestra/testbench for a proper development experience. To get started you should fork the repository and clone
+it. Next you can set up the development environment by executin the following commands:
+```bash
+composer install
+composer prepare
+composer serve
+```
+
 ## Testing
-
-### Dusk setup
-
-We use Laravel Dusk for browser tests. The setup is using a MySQL database since it needs to be persisted between
-processes which is not possible with in memory sqlite. It currently expects a `mycms_test` database and a `root` user
-with the password `password`.
 
 ```bash
 composer test
 ```
+
+### Dusk setup
+
+I had problems with the Laravel Dusk setup and migrations so I decided to drop them for now.
+Looking for support getting a reliable Dusk setup running
 
 ## Changelog
 
@@ -64,7 +73,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 - [bambamboole](https://github.com/bambamboole)
 - [All Contributors](../../contributors)
-- [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder) I learned so much about Filament by reimplementing this package.
+- [datlechin/filament-menu-builder](https://github.com/datlechin/filament-menu-builder) I learned so much about Filament
+  by reimplementing this package.
 
 ## License
 
