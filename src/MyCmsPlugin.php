@@ -6,11 +6,11 @@ namespace Bambamboole\MyCms;
 
 use Bambamboole\MyCms\Pages\SettingsPage;
 use Bambamboole\MyCms\Pages\SiteHealthPage;
-use Bambamboole\MyCms\Filament\Resources\MenuResource;
-use Bambamboole\MyCms\Filament\Resources\PageResource;
-use Bambamboole\MyCms\Filament\Resources\PostResource;
-use Bambamboole\MyCms\Filament\Resources\RoleResource;
-use Bambamboole\MyCms\Filament\Resources\UserResource;
+use Bambamboole\MyCms\Resources\MenuResource;
+use Bambamboole\MyCms\Resources\PageResource;
+use Bambamboole\MyCms\Resources\PostResource;
+use Bambamboole\MyCms\Resources\RoleResource;
+use Bambamboole\MyCms\Resources\UserResource;
 use Bambamboole\MyCms\Theme\ThemeInterface;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Contracts\Plugin;
@@ -61,7 +61,7 @@ class MyCmsPlugin implements Plugin
         $panel->renderHook('panels::global-search.before', function () {
             $env = app()->environment();
 
-            return view('mycms::filament.snippets.environment-indicator', [
+            return view('mycms::snippets.environment-indicator', [
                 'color' => match ($env) {
                     'production' => Color::Red,
                     'staging' => Color::Orange,

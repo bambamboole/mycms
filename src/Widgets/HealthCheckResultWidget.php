@@ -1,6 +1,6 @@
 <?php
 
-namespace Bambamboole\MyCms\Filament\Widgets;
+namespace Bambamboole\MyCms\Widgets;
 
 use Filament\Widgets\Widget;
 use Spatie\Health\Enums\Status;

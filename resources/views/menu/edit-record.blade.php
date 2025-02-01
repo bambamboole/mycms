@@ -35,7 +35,7 @@
 
     <div class="grid grid-cols-12 gap-4" wire:ignore>
         <div class="flex flex-col col-span-12 gap-4 sm:col-span-4">
-                <livewire:menu-builder-panel :menu="$record" :menuPanel="new \Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\PageMenuPanel('Pages')" />
+                <livewire:menu-builder-panel :menu="$record" :menuPanel="new \Bambamboole\MyCms\Resources\MenuResource\MenuPanel\PageMenuPanel('Pages')" />
 
                 <livewire:create-custom-link :menu="$record" />
 

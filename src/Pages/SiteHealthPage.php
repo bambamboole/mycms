@@ -2,7 +2,7 @@
 
 namespace Bambamboole\MyCms\Pages;
 
-use Bambamboole\MyCms\Filament\Widgets\HealthCheckResultWidget;
+use Bambamboole\MyCms\Widgets\HealthCheckResultWidget;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Carbon\Carbon;
 use Filament\Actions\Action;

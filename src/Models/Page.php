@@ -3,7 +3,7 @@
 namespace Bambamboole\MyCms\Models;
 
 use Bambamboole\MyCms\Database\Factories\PageFactory;
-use Bambamboole\MyCms\Filament\Resources\MenuResource\MenuPanel\MenuPanelable;
+use Bambamboole\MyCms\Resources\MenuResource\MenuPanel\MenuPanelable;
 use Illuminate\Database\Eloquent\Builder;
 use RalphJSmit\Laravel\SEO\Support\SEOData;
 
