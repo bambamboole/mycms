@@ -27,7 +27,7 @@
         "illuminate/contracts": "^11.0",
         "league/commonmark": "^2.6",
         "league/flysystem-aws-s3-v3": "^3.29",
-        "mansoor/filament-versionable": "^0.0.13",
+        "mansoor/filament-versionable": "^0.0.14",
         "pboivin/filament-peek": "^2.2",
         "ralphjsmit/laravel-seo": "^1.6",
         "ryangjchandler/commonmark-blade-block": "^1.0",
